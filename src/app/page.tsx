@@ -58,11 +58,7 @@ export default function Home() {
               <br />
               <span className="text-gradient">SIN EXCUSAS.</span>
             </h1>
-            <p className="mt-6 max-w-md text-lg text-muted">
-              BOOM es la bebida energizante hecha para quienes van por más. Sin azúcar,
-              con sabor real y la energía que tu día exige.
-            </p>
-            <div className="mt-9 flex flex-wrap items-center gap-4">
+            <div className="mt-14 flex flex-wrap items-center gap-4 sm:mt-16">
               <a
                 href={WHATSAPP_LINK}
                 target="_blank"
