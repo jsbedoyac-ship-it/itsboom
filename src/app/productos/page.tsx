@@ -2,19 +2,20 @@ import type { Metadata } from "next";
 import { MessageSquare, PackageCheck, ShoppingBag } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
 import { FlavorsGrid } from "@/components/sections/FlavorsGrid";
+import { IngredientsSection } from "@/components/sections/IngredientsSection";
 import { CTASection } from "@/components/sections/CTASection";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/motion/Reveal";
 
 export const metadata: Metadata = {
   title: "Productos | IT'S BOOM Energy Drink",
-  description: "Conoce los sabores de BOOM: mora, fresa y kiwi. Bebida energizante sin azúcar.",
+  description: "Conoce los sabores de BOOM: Kiwi y Fresa, Mora Azul Açaí. Bebida energizante.",
 };
 
 const steps = [
   {
     icon: ShoppingBag,
     title: "1. Elige tu sabor",
-    description: "Mora, fresa o kiwi: escoge el que más te represente.",
+    description: "Kiwi y Fresa o Mora Azul Açaí: escoge el que más te represente.",
   },
   {
     icon: MessageSquare,
@@ -34,14 +35,16 @@ export default function ProductosPage() {
       <PageHero
         eyebrow="Catálogo"
         title="Nuestros productos"
-        description="Tres sabores, una misma energía real. Sin azúcar, sin excusas."
+        description="Dos sabores, una misma energía real. Sin excusas."
       />
 
       <section className="mx-auto max-w-6xl px-5 py-20 sm:px-8">
         <FlavorsGrid withCta />
       </section>
 
-      <section className="border-t border-border bg-surface-2/40 py-20">
+      <IngredientsSection />
+
+      <section className="border-t border-border py-20">
         <div className="mx-auto max-w-5xl px-5 sm:px-8">
           <Reveal className="text-center">
             <p className="font-mono-brand text-xs font-semibold uppercase tracking-[0.3em] text-green">

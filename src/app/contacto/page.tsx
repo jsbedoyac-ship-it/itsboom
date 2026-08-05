@@ -26,7 +26,7 @@ const faqs = [
   },
   {
     question: "¿Qué sabores tienen disponibles?",
-    answer: "Actualmente tenemos mora, fresa y kiwi, con más sabores en camino.",
+    answer: "Actualmente tenemos Kiwi y Fresa, y Mora Azul Açaí, con más sabores en camino.",
   },
 ];
 

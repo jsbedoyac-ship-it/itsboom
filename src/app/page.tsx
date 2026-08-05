@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Camera, Droplet, Flame, Leaf, MessageCircle, ShieldCheck, Zap } from "lucide-react";
+import { Camera, Flame, Gauge, MessageCircle, Sparkles, Zap } from "lucide-react";
 import { HeroVisual } from "@/components/sections/HeroVisual";
 import { FlavorsGrid } from "@/components/sections/FlavorsGrid";
 import { CTASection } from "@/components/sections/CTASection";
@@ -9,11 +9,12 @@ import { InterlockedRings } from "@/components/icons/InterlockedRings";
 import { INSTAGRAM_HANDLE, INSTAGRAM_LINK, WHATSAPP_LINK } from "@/lib/utils";
 
 const marqueeItems = [
-  "SIN AZÚCAR",
-  "ENERGÍA REAL",
-  "MORA · FRESA · KIWI",
+  "KIWI Y FRESA",
+  "MORA AZUL AÇAÍ",
+  "ENERGÍA EXPLOSIVA",
+  "RESISTENCIA",
+  "SABOR ÚNICO",
   "HECHA PARA QUIENES VAN POR MÁS",
-  "FREE SUGGAR, SIN EXCUSAS",
 ].map((text, i) => (
   <span
     key={i}
@@ -26,24 +27,19 @@ const marqueeItems = [
 
 const values = [
   {
-    icon: Droplet,
-    title: "Free sugar",
-    description: "Cero azúcar añadida. Todo el sabor, ninguna excusa.",
-  },
-  {
     icon: Zap,
-    title: "Energía real",
-    description: "Cafeína y taurina en dosis pensadas para rendir todo el día.",
+    title: "Energía Explosiva",
+    description: "Cafeína, taurina y beta-alanina en dosis pensadas para rendir todo el día.",
   },
   {
-    icon: Leaf,
-    title: "Sabor a fruta",
-    description: "Mora, fresa y kiwi: sabores frescos, no jarabes artificiales.",
+    icon: Gauge,
+    title: "Resistencia",
+    description: "L-Citrulina y L-Arginina para sostener el ritmo cuando más lo necesitas.",
   },
   {
-    icon: ShieldCheck,
-    title: "Calidad certificada",
-    description: "Producción controlada y distribuidores oficiales en todo el país.",
+    icon: Sparkles,
+    title: "Sabor Único",
+    description: "Kiwi y Fresa, Mora Azul Açaí: sabores reales, levemente gasificados.",
   },
 ];
 
@@ -94,7 +90,7 @@ export default function Home() {
       </section>
 
       <section className="mx-auto max-w-6xl px-5 py-20 sm:px-8">
-        <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <StaggerGroup className="mx-auto grid max-w-4xl gap-6 sm:grid-cols-3">
           {values.map(({ icon: Icon, title, description }) => (
             <StaggerItem key={title}>
               <div className="h-full rounded-2xl border border-border bg-surface p-6 transition-colors duration-300 hover:border-gold/50">
@@ -117,7 +113,7 @@ export default function Home() {
               Elige tu boom
             </h2>
             <p className="mt-4 text-muted">
-              Tres sabores, una sola energía. Encuentra el que más va contigo.
+              Dos sabores, una sola energía. Encuentra el que más va contigo.
             </p>
           </Reveal>
 
