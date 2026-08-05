@@ -1,6 +1,7 @@
-export type NutritionFact = {
+export type IngredientBenefit = {
   label: string;
   value: string;
+  description: string;
 };
 
 export type Flavor = {
@@ -12,6 +13,7 @@ export type Flavor = {
   colorTo: string;
   netContent: string;
   servings: string;
+  photo: string;
 };
 
 export const flavors: Flavor[] = [
@@ -25,6 +27,7 @@ export const flavors: Flavor[] = [
     colorTo: "#EC1E6E",
     netContent: "310 mL",
     servings: "1",
+    photo: "/lata-kiwi-fresa.jpg",
   },
   {
     id: "mora-azul",
@@ -36,17 +39,45 @@ export const flavors: Flavor[] = [
     colorTo: "#4B2E9E",
     netContent: "310 mL",
     servings: "1",
+    photo: "/lata-mora-azul.jpg",
   },
 ];
 
-export const nutritionFacts: NutritionFact[] = [
-  { label: "Cafeína", value: "93 mg" },
-  { label: "L-Citrulina", value: "4000 mg" },
-  { label: "Taurina", value: "1209 mg" },
-  { label: "Beta-Alanina", value: "2000 mg" },
-  { label: "L-Arginina", value: "605 mg" },
-  { label: "L-Teanina", value: "31 mg" },
+export const ingredientBenefits: IngredientBenefit[] = [
+  {
+    label: "Cafeína",
+    value: "93 mg",
+    description: "Energía y enfoque rápido. Menos fatiga percibida.",
+  },
+  {
+    label: "L-Citrulina",
+    value: "4000 mg",
+    description: "Más óxido nítrico y bombeo. Mejor rendimiento y resistencia.",
+  },
+  {
+    label: "Beta-Alanina",
+    value: "2000 mg",
+    description: "Aumenta carnosina muscular. Retrasa la fatiga.",
+  },
+  {
+    label: "Taurina",
+    value: "1209 mg",
+    description: "Mejor contracción e hidratación. Apoya resistencia y enfoque.",
+  },
+  {
+    label: "L-Arginina",
+    value: "605 mg",
+    description: "Apoya el flujo sanguíneo. Bombeo y recuperación.",
+  },
+  {
+    label: "L-Teanina",
+    value: "31 mg",
+    description: "Enfoque calmado, sin nervios. Suaviza el estímulo de la cafeína.",
+  },
 ];
+
+export const fullIngredientsList =
+  "Agua carbonatada, aminoácidos (L-citrulina, Beta-alanina, L-arginina, L-teanina), acidulantes (ácido cítrico, ácido málico), taurina, extracto de frutas (manzana, algarrobo), cafeína anhidra, extracto de té verde, extracto de guaraná, mezcla de vitaminas (B3, B6, B12, biotina), regulador de acidez (citrato de sodio), edulcorantes artificiales (sucralosa, acesulfame k), sal, conservantes (sorbato de potasio, benzoato de sodio), estabilizante (carboximetilcelulosa), sabores naturales y artificiales, colorantes artificiales. Contiene tartrazina.";
 
 export const pillars = [
   { title: "Energía Explosiva", icon: "zap" },

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { MessageSquare, PackageCheck, ShoppingBag } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
 import { FlavorsGrid } from "@/components/sections/FlavorsGrid";
-import { IngredientsSection } from "@/components/sections/IngredientsSection";
 import { CTASection } from "@/components/sections/CTASection";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/motion/Reveal";
 
@@ -42,9 +41,7 @@ export default function ProductosPage() {
         <FlavorsGrid withCta />
       </section>
 
-      <IngredientsSection />
-
-      <section className="border-t border-border py-20">
+      <section className="border-t border-border bg-surface-2/40 py-20">
         <div className="mx-auto max-w-5xl px-5 sm:px-8">
           <Reveal className="text-center">
             <p className="font-mono-brand text-xs font-semibold uppercase tracking-[0.3em] text-green">
