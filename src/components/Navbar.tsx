@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, MessageCircle } from "lucide-react";
 import { cn, WHATSAPP_LINK } from "@/lib/utils";
-import { BrandLogo } from "@/components/icons/BrandLogo";
 
 const links = [
   { href: "/", label: "Inicio" },
@@ -22,8 +22,15 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/80 bg-background/80 backdrop-blur-md">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
-        <Link href="/" onClick={() => setOpen(false)}>
-          <BrandLogo className="text-2xl text-foreground" />
+        <Link href="/" onClick={() => setOpen(false)} className="shrink-0">
+          <Image
+            src="/logo.png"
+            alt="IT'S BOOM"
+            width={449}
+            height={670}
+            priority
+            className="h-11 w-auto"
+          />
         </Link>
 
         <ul className="hidden items-center gap-8 md:flex">

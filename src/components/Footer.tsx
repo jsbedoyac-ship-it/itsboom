@@ -1,7 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Camera, MessageCircle } from "lucide-react";
 import { INSTAGRAM_HANDLE, INSTAGRAM_LINK, WHATSAPP_LINK } from "@/lib/utils";
-import { BrandLogo } from "@/components/icons/BrandLogo";
 
 const links = [
   { href: "/", label: "Inicio" },
@@ -16,7 +16,13 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8">
         <div className="grid gap-10 md:grid-cols-3">
           <div>
-            <BrandLogo variant="stacked" className="text-3xl text-foreground" />
+            <Image
+              src="/logo.png"
+              alt="IT'S BOOM"
+              width={449}
+              height={670}
+              className="h-28 w-auto"
+            />
             <p className="mt-4 max-w-xs text-sm text-muted">
               Hecha para quienes van por más. Bebida energizante sin azúcar, con sabor real.
             </p>
