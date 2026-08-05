@@ -1,26 +1,143 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0a;
+  --surface: #131313;
+  --surface-2: #1a1a1a;
+  --foreground: #ffffff;
+  --muted: #a3a3a3;
+
+  --pink: #ec1e6e;
+  --pink-soft: #ff5d9e;
+  --green: #7ac142;
+  --green-soft: #a3dc73;
+  --purple: #4b2e9e;
+  --purple-soft: #7c5ce0;
+  --gold: #f5a623;
+
+  --border: #262626;
+
+  --font-display: var(--font-archivo-black);
+  --font-wordmark: var(--font-saira-condensed);
+  --font-body: var(--font-inter);
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+
+  --color-pink: var(--pink);
+  --color-pink-soft: var(--pink-soft);
+  --color-green: var(--green);
+  --color-green-soft: var(--green-soft);
+  --color-purple: var(--purple);
+  --color-purple-soft: var(--purple-soft);
+  --color-gold: var(--gold);
+
+  --color-border: var(--border);
+
+  --font-display: var(--font-display);
+  --font-wordmark: var(--font-wordmark);
+  --font-body: var(--font-body);
+
+  --animate-marquee: marquee 26s linear infinite;
+  --animate-marquee-fast: marquee 14s linear infinite;
+  --animate-glow-pulse: glow-pulse 4s ease-in-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes marquee {
+  from {
+    transform: translateX(0);
   }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-18px) rotate(2deg);
+  }
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-wordmark {
+  font-family: var(--font-wordmark), ui-sans-serif, system-ui, sans-serif;
+  font-style: italic;
+  font-weight: 800;
+}
+
+.font-mono-brand {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+}
+
+::selection {
+  background: var(--pink);
+  color: #ffffff;
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, var(--pink) 0%, var(--purple) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.noise-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
