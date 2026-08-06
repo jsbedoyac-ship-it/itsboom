@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 type MarqueeProps = {
   items: ReactNode[];
   className?: string;
-  speed?: "fast" | "normal";
+  speed?: "fast" | "normal" | "rapid";
   reverse?: boolean;
 };
 
@@ -17,6 +17,7 @@ export function Marquee({ items, className, speed = "normal", reverse = false }:
         className={cn(
           "flex w-max items-center gap-8 will-change-transform motion-safe:animate-marquee",
           speed === "fast" && "motion-safe:animate-marquee-fast",
+          speed === "rapid" && "motion-safe:animate-marquee-rapid",
           reverse && "[animation-direction:reverse]"
         )}
       >

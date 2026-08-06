@@ -45,6 +45,7 @@
 
   --animate-marquee: marquee 26s linear infinite;
   --animate-marquee-fast: marquee 14s linear infinite;
+  --animate-marquee-rapid: marquee 9s linear infinite;
   --animate-glow-pulse: glow-pulse 4s ease-in-out infinite;
   --animate-float: float 6s ease-in-out infinite;
 }

@@ -1,4 +1,4 @@
-import { Camera, Flame, Gauge, Sparkles, Zap } from "lucide-react";
+import { Camera, CandyOff, Flame, Gauge, Sparkles, Zap } from "lucide-react";
 import { HeroVisual } from "@/components/sections/HeroVisual";
 import { FlavorsGrid } from "@/components/sections/FlavorsGrid";
 import { CTASection } from "@/components/sections/CTASection";
@@ -33,6 +33,11 @@ const values = [
     title: "Sabor Único",
     description: "Kiwi y Fresa, Mora Azul Açaí: sabores reales, levemente gasificados.",
   },
+  {
+    icon: CandyOff,
+    title: "Cero Azúcar",
+    description: "Endulzada con sucralosa y acesulfame K: toda la energía, sin azúcar añadida.",
+  },
 ];
 
 export default function Home() {
@@ -60,12 +65,12 @@ export default function Home() {
         </div>
 
         <div className="border-y border-border bg-surface py-5">
-          <Marquee items={marqueeItems} />
+          <Marquee items={marqueeItems} speed="rapid" />
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-5 py-20 sm:px-8">
-        <StaggerGroup className="mx-auto grid max-w-4xl gap-6 sm:grid-cols-3">
+        <StaggerGroup className="mx-auto grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {values.map(({ icon: Icon, title, description }) => (
             <StaggerItem key={title}>
               <div className="h-full rounded-2xl border border-border bg-surface p-6 transition-colors duration-300 hover:border-gold/50">
