@@ -7,7 +7,7 @@ import { Reveal, StaggerGroup, StaggerItem } from "@/components/motion/Reveal";
 
 export const metadata: Metadata = {
   title: "Nosotros | IT'S BOOM Energy Drink",
-  description: "Conoce la historia y los valores detrás de BOOM, la bebida energizante sin azúcar.",
+  description: "Conoce la historia y los valores detrás de IT'S BOOM, la bebida energizante sin azúcar.",
 };
 
 const values = [
@@ -57,7 +57,7 @@ export default function NosotrosPage() {
             Hecha para quienes <span className="text-gradient">van por más</span>
           </>
         }
-        description="BOOM nació de una idea simple: la energía que necesitas para dar el siguiente paso no debería venir cargada de azúcar."
+        description="IT'S BOOM nació de una idea simple: la energía que necesitas para dar el siguiente paso no debería venir cargada de azúcar."
       />
 
       <section className="mx-auto max-w-4xl px-5 py-20 sm:px-8">
@@ -70,12 +70,12 @@ export default function NosotrosPage() {
           </h2>
           <div className="mt-6 space-y-4 text-base leading-relaxed text-muted sm:text-lg">
             <p>
-              Diseñamos BOOM para las personas que exigen más de su día: entrenamientos,
+              Diseñamos IT&apos;S BOOM para las personas que exigen más de su día: entrenamientos,
               estudio, trabajo o la próxima gran idea. Nada de eso debería frenarse por una
               bajada de energía, y mucho menos por una lata cargada de azúcar.
             </p>
             <p>
-              Por eso cada sabor de BOOM combina ingredientes reales con la dosis exacta de
+              Por eso cada sabor de IT&apos;S BOOM combina ingredientes reales con la dosis exacta de
               energía, para que sigas en movimiento sin sacrificar lo que le pones a tu cuerpo.
             </p>
           </div>

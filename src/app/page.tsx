@@ -110,7 +110,7 @@ export default function Home() {
             Síguenos en Instagram
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-muted">
-            Contenido, lanzamientos y la comunidad BOOM en{" "}
+            Contenido, lanzamientos y la comunidad IT&apos;S BOOM en{" "}
             <a
               href={INSTAGRAM_LINK}
               target="_blank"

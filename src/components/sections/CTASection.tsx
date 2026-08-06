@@ -21,10 +21,10 @@ export function CTASection() {
             Distribuidores
           </div>
           <h2 className="font-display mt-6 text-3xl font-black tracking-tight sm:text-5xl">
-            ¿Quieres vender <span className="text-gradient">BOOM</span> en tu negocio?
+            ¿Quieres vender <span className="text-gradient">IT&apos;S BOOM</span> en tu negocio?
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base text-muted">
-            Súmate como distribuidor y lleva la energía de BOOM a tu tienda, gimnasio o evento.
+            Súmate como distribuidor y lleva la energía de IT&apos;S BOOM a tu tienda, gimnasio o evento.
             Escríbenos y te contamos cómo empezar.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">

@@ -26,7 +26,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "IT'S BOOM Energy Drink | Hecha para quienes van por más",
   description:
-    "BOOM es la bebida energizante hecha para quienes van por más. Sabores Kiwi y Fresa, Mora Azul Açaí. Energía real, sin excusas.",
+    "IT'S BOOM es la bebida energizante hecha para quienes van por más. Sabores Kiwi y Fresa, Mora Azul Açaí. Energía real, sin excusas.",
 };
 
 export const viewport: Viewport = {

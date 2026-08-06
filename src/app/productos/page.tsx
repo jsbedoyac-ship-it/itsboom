@@ -7,7 +7,7 @@ import { Reveal, StaggerGroup, StaggerItem } from "@/components/motion/Reveal";
 
 export const metadata: Metadata = {
   title: "Productos | IT'S BOOM Energy Drink",
-  description: "Conoce los sabores de BOOM: Kiwi y Fresa, Mora Azul Açaí. Bebida energizante.",
+  description: "Conoce los sabores de IT'S BOOM: Kiwi y Fresa, Mora Azul Açaí. Bebida energizante.",
 };
 
 const steps = [
@@ -48,7 +48,7 @@ export default function ProductosPage() {
               Cómo comprar
             </p>
             <h2 className="font-display mt-4 text-3xl font-black tracking-tight sm:text-4xl">
-              Pedir BOOM es fácil
+              Pedir IT&apos;S BOOM es fácil
             </h2>
           </Reveal>
 

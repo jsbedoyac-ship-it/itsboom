@@ -21,8 +21,8 @@ const faqs = [
       "Contáctanos por WhatsApp o Instagram contándonos sobre tu negocio (tienda, gimnasio, evento). Te compartimos condiciones y precios por volumen.",
   },
   {
-    question: "¿BOOM tiene azúcar?",
-    answer: "No. BOOM es una bebida energizante free sugar: toda la energía, sin azúcar añadida.",
+    question: "¿IT'S BOOM tiene azúcar?",
+    answer: "No. IT'S BOOM es una bebida energizante free sugar: toda la energía, sin azúcar añadida.",
   },
   {
     question: "¿Qué sabores tienen disponibles?",
@@ -83,7 +83,7 @@ export default function ContactoPage() {
               <Store className="size-7 text-green" aria-hidden="true" />
               <h3 className="font-display mt-4 text-lg font-bold">Distribuidores</h3>
               <p className="mt-2 text-sm text-muted">
-                ¿Quieres vender BOOM en tu negocio? Hablemos de condiciones.
+                ¿Quieres vender IT&apos;S BOOM en tu negocio? Hablemos de condiciones.
               </p>
               <span className="mt-4 text-sm font-semibold text-green">Aplicar ahora →</span>
             </a>
