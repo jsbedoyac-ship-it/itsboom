@@ -18,7 +18,7 @@ export function TextTunnel({ text, className, children }: TextTunnelProps) {
   const textItem = (
     <span
       className="font-display flex items-center gap-6 whitespace-nowrap text-[3rem] font-black uppercase leading-none tracking-tight text-white motion-safe:animate-text-glow sm:text-[5rem] lg:text-[6.5rem]"
-      style={{ textShadow: "0 0 30px rgba(46,107,224,0.6), 0 0 70px rgba(75,46,158,0.4)" }}
+      style={{ textShadow: "0 0 14px rgba(46,107,224,0.3), 0 0 32px rgba(75,46,158,0.18)" }}
     >
       {text}
       <span className="text-gold" aria-hidden="true">
@@ -34,15 +34,15 @@ export function TextTunnel({ text, className, children }: TextTunnelProps) {
         className
       )}
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_45%,rgba(75,46,158,0.28),transparent_70%)] motion-safe:animate-hue-shift" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_38%_32%_at_28%_18%,rgba(122,193,66,0.14),transparent_70%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_38%_32%_at_76%_22%,rgba(46,107,224,0.22),transparent_70%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_45%,rgba(75,46,158,0.16),transparent_70%)] motion-safe:animate-hue-shift" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_38%_32%_at_28%_18%,rgba(122,193,66,0.08),transparent_70%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_38%_32%_at_76%_22%,rgba(46,107,224,0.12),transparent_70%)]" />
 
       <div
-        className="pointer-events-none absolute inset-x-0 top-[36%] h-[22%] -translate-y-1/2 blur-2xl"
+        className="pointer-events-none absolute inset-x-0 top-[36%] h-[20%] -translate-y-1/2 blur-2xl"
         style={{
           background:
-            "linear-gradient(90deg, rgba(46,107,224,0.4), rgba(75,46,158,0.5), rgba(46,107,224,0.4))",
+            "linear-gradient(90deg, rgba(46,107,224,0.18), rgba(75,46,158,0.22), rgba(46,107,224,0.18))",
         }}
         aria-hidden="true"
       />
@@ -56,8 +56,8 @@ export function TextTunnel({ text, className, children }: TextTunnelProps) {
               className="absolute rounded-[1.75rem] border motion-safe:animate-glow-pulse"
               style={{
                 inset: `${inset}%`,
-                borderColor: i % 2 === 0 ? "rgba(236,30,110,0.4)" : "rgba(245,166,35,0.22)",
-                boxShadow: `0 0 ${16 + i * 4}px rgba(236,30,110,0.22)`,
+                borderColor: i % 2 === 0 ? "rgba(236,30,110,0.22)" : "rgba(245,166,35,0.12)",
+                boxShadow: `0 0 ${8 + i * 2}px rgba(236,30,110,0.12)`,
                 animationDelay: `${i * 0.35}s`,
               }}
             />
@@ -65,12 +65,12 @@ export function TextTunnel({ text, className, children }: TextTunnelProps) {
         })}
       </div>
 
-      <div className="absolute inset-x-0 top-[36%] -translate-y-1/2 opacity-90">
+      <div className="absolute inset-x-0 top-[36%] -translate-y-1/2 opacity-70">
         <Marquee items={[textItem]} />
       </div>
 
       <div
-        className="absolute inset-x-0 top-[64%] origin-top scale-y-[-1] opacity-25"
+        className="absolute inset-x-0 top-[64%] origin-top scale-y-[-1] opacity-15"
         style={{
           maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.6), transparent 75%)",
           WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.6), transparent 75%)",
