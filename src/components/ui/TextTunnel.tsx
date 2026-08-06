@@ -18,7 +18,7 @@ export function TextTunnel({ text, className, children }: TextTunnelProps) {
   const textItem = (
     <span
       className="font-display flex items-center gap-6 whitespace-nowrap text-[3rem] font-black uppercase leading-none tracking-tight text-white motion-safe:animate-text-glow sm:text-[5rem] lg:text-[6.5rem]"
-      style={{ textShadow: "0 0 30px rgba(236,30,110,0.55), 0 0 70px rgba(236,30,110,0.3)" }}
+      style={{ textShadow: "0 0 30px rgba(46,107,224,0.6), 0 0 70px rgba(75,46,158,0.4)" }}
     >
       {text}
       <span className="text-gold" aria-hidden="true">
@@ -34,9 +34,18 @@ export function TextTunnel({ text, className, children }: TextTunnelProps) {
         className
       )}
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_45%,rgba(236,30,110,0.24),transparent_70%)] motion-safe:animate-hue-shift" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_45%,rgba(75,46,158,0.28),transparent_70%)] motion-safe:animate-hue-shift" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_38%_32%_at_28%_18%,rgba(122,193,66,0.14),transparent_70%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_38%_32%_at_76%_22%,rgba(75,46,158,0.2),transparent_70%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_38%_32%_at_76%_22%,rgba(46,107,224,0.22),transparent_70%)]" />
+
+      <div
+        className="pointer-events-none absolute inset-x-0 top-[36%] h-[22%] -translate-y-1/2 blur-2xl"
+        style={{
+          background:
+            "linear-gradient(90deg, rgba(46,107,224,0.4), rgba(75,46,158,0.5), rgba(46,107,224,0.4))",
+        }}
+        aria-hidden="true"
+      />
 
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         {Array.from({ length: FRAME_COUNT }).map((_, i) => {
