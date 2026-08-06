@@ -46,7 +46,7 @@ export default function Home() {
   return (
     <>
       <section className="relative overflow-hidden">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-4 pt-16 sm:px-8 sm:pt-24 lg:grid-cols-2 lg:gap-6">
+        <div className="mx-auto max-w-3xl px-5 pb-6 pt-16 text-center sm:px-8 sm:pt-24">
           <Reveal>
             <p className="font-mono-brand inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-green">
               <Flame className="size-3.5" aria-hidden="true" />
@@ -58,8 +58,12 @@ export default function Home() {
               <span className="text-gradient">SIN EXCUSAS.</span>
             </h1>
           </Reveal>
+        </div>
 
-          <HeroVisual />
+        <div className="mx-auto max-w-6xl px-5 pb-4 sm:px-8">
+          <Reveal delay={0.15}>
+            <HeroVisual />
+          </Reveal>
         </div>
 
         <div className="border-y border-border bg-surface py-5">
