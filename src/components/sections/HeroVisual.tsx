@@ -32,7 +32,7 @@ export function HeroVisual() {
   return (
     <TextTunnel
       text="Hecha para quienes van por más"
-      className="h-[32rem] sm:h-[42rem] lg:h-[50rem]"
+      className="h-[clamp(20rem,80vw,50rem)]"
     >
       <div className="flex w-full max-w-2xl items-end justify-center gap-1 pb-2 sm:max-w-3xl sm:gap-3 sm:pb-4 lg:max-w-4xl">
         {heroCans.map((can, i) => (
