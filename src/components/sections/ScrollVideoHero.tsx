@@ -5,11 +5,18 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "framer-motion";
 
+const VIDEO_SRC = "/video-hero.mp4";
+const POSTER_SRC = "/video-poster.jpg";
+// Can sits right-of-center in the source frame; keep it in view once the
+// full-bleed object-cover crops the sides on very wide or very narrow screens.
+const OBJECT_POSITION = "74% center";
+
 /**
  * Pinned, scroll-scrubbed hero: the section stays sticky for several
  * viewport-heights while the video's currentTime is driven directly by
- * scroll progress, so the can/ingredient reveal baked into the footage
- * plays out in sync with the user's scroll instead of on a timer.
+ * scroll progress, so the can rotates in sync with the user's scroll
+ * instead of on a timer. `poster` guarantees the can is visible even if
+ * a browser defers loading the video itself (notably iOS Safari).
  */
 export function ScrollVideoHero() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -48,12 +55,14 @@ export function ScrollVideoHero() {
     return (
       <section className="relative flex h-[70vh] items-center justify-center overflow-hidden bg-background sm:h-[85vh]">
         <video
-          src="/VIDEO.mp4"
+          src={VIDEO_SRC}
+          poster={POSTER_SRC}
           autoPlay
           loop
           muted
           playsInline
           className="h-full w-full object-cover"
+          style={{ objectPosition: OBJECT_POSITION }}
         />
       </section>
     );
@@ -61,14 +70,16 @@ export function ScrollVideoHero() {
 
   return (
     <section ref={sectionRef} className="relative h-[280vh]">
-      <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden bg-background">
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-background">
         <video
           ref={videoRef}
-          src="/VIDEO.mp4"
+          src={VIDEO_SRC}
+          poster={POSTER_SRC}
           muted
           playsInline
           preload="auto"
-          className="max-h-[85vh] w-full max-w-5xl object-contain"
+          className="h-full w-full object-cover"
+          style={{ objectPosition: OBJECT_POSITION }}
         />
       </div>
     </section>
