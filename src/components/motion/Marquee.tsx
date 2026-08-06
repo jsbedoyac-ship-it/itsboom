@@ -8,8 +8,26 @@ type MarqueeProps = {
   reverse?: boolean;
 };
 
+// Base duration (seconds) each --animate-marquee* keyframe uses for a single
+// pass of the source items — see globals.css.
+const BASE_DURATION: Record<NonNullable<MarqueeProps["speed"]>, number> = {
+  normal: 26,
+  fast: 14,
+  rapid: 9,
+};
+
+// Minimum number of source-item copies per half-track, so short item lists
+// (e.g. a single phrase) still render wider than any real viewport and never
+// show a gap while looping.
+const MIN_COPIES = 10;
+
 export function Marquee({ items, className, speed = "normal", reverse = false }: MarqueeProps) {
-  const track = [...items, ...items];
+  const repeat = Math.max(1, Math.ceil(MIN_COPIES / items.length));
+  const half = Array.from({ length: repeat }, () => items).flat();
+  const track = [...half, ...half];
+  // Scale duration with the repeat count so px/s speed stays constant
+  // regardless of how many copies were needed to fill the half-track.
+  const duration = BASE_DURATION[speed] * repeat;
 
   return (
     <div className={cn("relative overflow-hidden", className)}>
@@ -20,6 +38,7 @@ export function Marquee({ items, className, speed = "normal", reverse = false }:
           speed === "rapid" && "motion-safe:animate-marquee-rapid",
           reverse && "[animation-direction:reverse]"
         )}
+        style={{ animationDuration: `${duration}s` }}
       >
         {track.map((item, i) => (
           <div key={i} className="shrink-0">
