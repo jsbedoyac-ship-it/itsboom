@@ -48,7 +48,6 @@
   --animate-marquee-rapid: marquee 9s linear infinite;
   --animate-glow-pulse: glow-pulse 4s ease-in-out infinite;
   --animate-float: float 6s ease-in-out infinite;
-  --animate-can-spin: can-spin 8s ease-in-out infinite;
 }
 
 @keyframes marquee {
@@ -79,16 +78,6 @@
   }
   50% {
     transform: translateY(-18px) rotate(2deg);
-  }
-}
-
-@keyframes can-spin {
-  0%,
-  100% {
-    transform: perspective(1200px) rotateY(-16deg);
-  }
-  50% {
-    transform: perspective(1200px) rotateY(16deg);
   }
 }
 
