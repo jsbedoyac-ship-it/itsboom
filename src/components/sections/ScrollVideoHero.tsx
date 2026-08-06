@@ -7,16 +7,22 @@ import { useReducedMotion } from "framer-motion";
 
 const VIDEO_SRC = "/video-hero.mp4";
 const POSTER_SRC = "/video-poster.jpg";
-// Can sits right-of-center in the source frame; keep it in view once the
-// full-bleed object-cover crops the sides on very wide or very narrow screens.
-const OBJECT_POSITION = "74% center";
+const VIDEO_WIDTH = 744;
+const VIDEO_HEIGHT = 448;
+
+// Fades the video's own backdrop out toward the edges so only the can (plus
+// a soft glow) reads against the page background, instead of a hard-edged
+// rectangle of the source footage's own purple backdrop.
+const BACKDROP_MASK =
+  "radial-gradient(ellipse 42% 62% at 50% 50%, black 40%, transparent 78%)";
 
 /**
  * Pinned, scroll-scrubbed hero: the section stays sticky for several
  * viewport-heights while the video's currentTime is driven directly by
  * scroll progress, so the can rotates in sync with the user's scroll
- * instead of on a timer. `poster` guarantees the can is visible even if
- * a browser defers loading the video itself (notably iOS Safari).
+ * instead of on a timer. `poster` plus a single, unbranched render tree
+ * keep the can visible immediately on every browser (notably iOS Safari,
+ * which was rendering this section blank).
  */
 export function ScrollVideoHero() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -26,7 +32,12 @@ export function ScrollVideoHero() {
   useEffect(() => {
     const video = videoRef.current;
     const section = sectionRef.current;
-    if (!video || !section || shouldReduceMotion) return;
+    if (!video || !section) return;
+
+    if (shouldReduceMotion) {
+      video.play().catch(() => {});
+      return;
+    }
 
     video.pause();
     gsap.registerPlugin(ScrollTrigger);
@@ -51,35 +62,27 @@ export function ScrollVideoHero() {
     return () => ctx.revert();
   }, [shouldReduceMotion]);
 
-  if (shouldReduceMotion) {
-    return (
-      <section className="relative flex h-[70vh] items-center justify-center overflow-hidden bg-background sm:h-[85vh]">
-        <video
-          src={VIDEO_SRC}
-          poster={POSTER_SRC}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="h-full w-full object-cover"
-          style={{ objectPosition: OBJECT_POSITION }}
-        />
-      </section>
-    );
-  }
-
   return (
-    <section ref={sectionRef} className="relative h-[280vh]">
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-background">
+    <section
+      ref={sectionRef}
+      className={shouldReduceMotion ? "relative h-[85vh]" : "relative h-[280vh]"}
+    >
+      <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden bg-background">
         <video
           ref={videoRef}
           src={VIDEO_SRC}
           poster={POSTER_SRC}
+          width={VIDEO_WIDTH}
+          height={VIDEO_HEIGHT}
           muted
+          loop={shouldReduceMotion ?? undefined}
           playsInline
           preload="auto"
-          className="h-full w-full object-cover"
-          style={{ objectPosition: OBJECT_POSITION }}
+          className="max-h-[85vh] w-full max-w-5xl object-contain"
+          style={{
+            maskImage: BACKDROP_MASK,
+            WebkitMaskImage: BACKDROP_MASK,
+          }}
         />
       </div>
     </section>
