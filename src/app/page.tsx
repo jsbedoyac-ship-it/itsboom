@@ -7,14 +7,7 @@ import { Reveal, StaggerGroup, StaggerItem } from "@/components/motion/Reveal";
 import { InterlockedRings } from "@/components/icons/InterlockedRings";
 import { INSTAGRAM_HANDLE, INSTAGRAM_LINK } from "@/lib/utils";
 
-const marqueeItems = [
-  "KIWI Y FRESA",
-  "MORA AZUL AÇAÍ",
-  "ENERGÍA EXPLOSIVA",
-  "RESISTENCIA",
-  "SABOR ÚNICO",
-  "HECHA PARA QUIENES VAN POR MÁS",
-].map((text, i) => (
+const marqueeItems = ["HECHA PARA QUIENES VAN POR MÁS"].map((text, i) => (
   <span
     key={i}
     className="font-display flex items-center gap-3 text-2xl font-black uppercase tracking-tight text-foreground/90 sm:text-3xl"
