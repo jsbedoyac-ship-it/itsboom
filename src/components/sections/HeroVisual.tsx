@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
-import { TextTunnel } from "@/components/ui/TextTunnel";
+import ElectricMist from "@/components/ui/electric-mist";
 import { flavors } from "@/lib/flavors";
 
 const heroCans = [
@@ -30,15 +30,14 @@ export function HeroVisual() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <TextTunnel
-      text="Hecha para quienes van por más"
-      className="h-[clamp(20rem,80vw,50rem)]"
-    >
-      <div className="flex w-full max-w-2xl items-end justify-center gap-1 pb-2 sm:max-w-3xl sm:gap-3 sm:pb-4 lg:max-w-4xl">
+    <div className="relative isolate flex h-[clamp(22rem,85vw,55rem)] items-center justify-center overflow-hidden rounded-[2rem] border border-border">
+      <ElectricMist color="#2E6BE0" speed={0.6} detail={1.4} distortion={2.4} brightness={1.15} />
+
+      <div className="relative z-10 flex w-full max-w-3xl items-center justify-center gap-2 px-4 sm:max-w-4xl sm:gap-4 lg:max-w-5xl">
         {heroCans.map((can, i) => (
           <motion.div
             key={can.id}
-            className="relative w-[42%] max-w-[16rem] sm:max-w-[20rem] lg:max-w-[24rem]"
+            className="relative w-[46%] max-w-[19rem] sm:max-w-[24rem] lg:max-w-[28rem]"
             style={{ aspectRatio: `${can.width} / ${can.height}`, transformOrigin: "bottom center" }}
             initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 60, rotate: can.baseRotate }}
             animate={{
@@ -75,7 +74,7 @@ export function HeroVisual() {
                 src={can.src}
                 alt={`Lata IT'S BOOM sabor ${can.name}`}
                 fill
-                sizes="(min-width: 1024px) 24rem, (min-width: 640px) 20rem, 45vw"
+                sizes="(min-width: 1024px) 28rem, (min-width: 640px) 24rem, 46vw"
                 className="object-contain"
                 priority={i === 0}
               />
@@ -83,6 +82,6 @@ export function HeroVisual() {
           </motion.div>
         ))}
       </div>
-    </TextTunnel>
+    </div>
   );
 }
