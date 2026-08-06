@@ -1,5 +1,5 @@
 import { Camera, CandyOff, Flame, Gauge, Sparkles, Zap } from "lucide-react";
-import { CanHero } from "@/components/sections/CanHero";
+import { CanIngredientsHero } from "@/components/sections/CanIngredientsHero";
 import { FlavorsGrid } from "@/components/sections/FlavorsGrid";
 import { CTASection } from "@/components/sections/CTASection";
 import { Marquee } from "@/components/motion/Marquee";
@@ -58,7 +58,7 @@ export default function Home() {
           </Reveal>
         </div>
 
-        <CanHero />
+        <CanIngredientsHero />
 
         <div className="border-y border-border bg-surface py-5">
           <Marquee items={marqueeItems} speed="rapid" />
