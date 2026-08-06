@@ -8,18 +8,18 @@ import { flavors } from "@/lib/flavors";
 const heroCans = [
   {
     ...flavors[0],
-    src: "/can-kiwi-fresa.png",
-    width: 1214,
-    height: 1600,
+    src: "/card-kiwi-fresa-v2.png",
+    width: 451,
+    height: 1086,
     baseRotate: 11,
     clinkDelta: 7,
     overshoot: -3,
   },
   {
     ...flavors[1],
-    src: "/can-mora-azul.png",
-    width: 1202,
-    height: 1600,
+    src: "/card-mora-azul-v2.png",
+    width: 413,
+    height: 962,
     baseRotate: -11,
     clinkDelta: -7,
     overshoot: 3,
@@ -33,11 +33,11 @@ export function HeroVisual() {
     <div className="relative isolate flex h-[clamp(22rem,85vw,55rem)] items-center justify-center overflow-hidden rounded-[2rem] border border-border">
       <ElectricMist color="#2E6BE0" speed={0.6} detail={1.4} distortion={2.4} brightness={1.15} />
 
-      <div className="relative z-10 flex w-full max-w-3xl items-center justify-center gap-2 px-4 sm:max-w-4xl sm:gap-4 lg:max-w-5xl">
+      <div className="relative z-10 flex h-full w-full max-w-3xl items-center justify-center gap-6 px-4 py-10 sm:max-w-4xl sm:gap-10 lg:max-w-5xl">
         {heroCans.map((can, i) => (
           <motion.div
             key={can.id}
-            className="relative w-[46%] max-w-[19rem] sm:max-w-[24rem] lg:max-w-[28rem]"
+            className="relative h-[64%] sm:h-[68%] lg:h-[72%]"
             style={{ aspectRatio: `${can.width} / ${can.height}`, transformOrigin: "bottom center" }}
             initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 60, rotate: can.baseRotate }}
             animate={{
@@ -74,7 +74,7 @@ export function HeroVisual() {
                 src={can.src}
                 alt={`Lata IT'S BOOM sabor ${can.name}`}
                 fill
-                sizes="(min-width: 1024px) 28rem, (min-width: 640px) 24rem, 46vw"
+                sizes="(min-width: 1024px) 17rem, (min-width: 640px) 12rem, 30vw"
                 className="object-contain"
                 priority={i === 0}
               />
