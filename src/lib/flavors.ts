@@ -27,7 +27,7 @@ export const flavors: Flavor[] = [
     colorTo: "#EC1E6E",
     netContent: "310 mL",
     servings: "1",
-    photo: "/lata-kiwi-fresa.jpg",
+    photo: "/card-kiwi-fresa.png",
   },
   {
     id: "mora-azul",
@@ -39,7 +39,7 @@ export const flavors: Flavor[] = [
     colorTo: "#4B2E9E",
     netContent: "310 mL",
     servings: "1",
-    photo: "/lata-mora-azul.jpg",
+    photo: "/card-mora-azul.png",
   },
 ];
 

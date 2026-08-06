@@ -21,7 +21,7 @@ export function FlavorsGrid({ withCta = false }: { withCta?: boolean }) {
               />
 
               <div className="relative flex justify-center py-2">
-                <div className="relative h-56 w-[60%] transition-transform duration-300 group-hover:-translate-y-1 sm:h-64">
+                <div className="relative h-64 w-[68%] transition-transform duration-300 group-hover:-translate-y-1 sm:h-72">
                   <Image
                     src={flavor.photo}
                     alt={`Lata IT'S BOOM sabor ${flavor.name}`}

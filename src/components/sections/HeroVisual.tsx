@@ -16,7 +16,7 @@ const heroCans = [
     rotate: -13,
     hoverRotate: -7,
     floatDelay: 0,
-    className: "left-0 top-16 w-[62%] sm:w-[64%] z-10",
+    className: "left-0 top-20 w-[76%] sm:w-[78%] z-10",
   },
   {
     ...flavors[1],
@@ -26,7 +26,7 @@ const heroCans = [
     rotate: 11,
     hoverRotate: 6,
     floatDelay: 0.6,
-    className: "right-0 top-0 w-[62%] sm:w-[64%]",
+    className: "right-0 top-0 w-[76%] sm:w-[78%]",
   },
 ];
 
@@ -68,7 +68,7 @@ export function HeroVisual() {
   return (
     <div
       ref={sectionRef}
-      className="relative flex h-[32rem] justify-center overflow-visible py-6 sm:h-[40rem]"
+      className="relative flex h-[38rem] justify-center overflow-visible py-6 sm:h-[48rem]"
     >
       <div
         ref={bgLayerRef}
@@ -80,7 +80,7 @@ export function HeroVisual() {
         <div className="absolute left-1/2 top-[55%] size-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-pink/15 blur-[100px]" />
       </div>
 
-      <div className="relative w-full max-w-lg sm:max-w-xl">
+      <div className="relative w-full max-w-xl sm:max-w-2xl">
         {heroCans.map((can, i) => (
           <motion.div
             key={can.id}
@@ -120,7 +120,7 @@ export function HeroVisual() {
                 src={can.src}
                 alt={`Lata IT'S BOOM sabor ${can.name}`}
                 fill
-                sizes="(min-width: 640px) 24rem, 65vw"
+                sizes="(min-width: 640px) 30rem, 80vw"
                 className="object-contain"
                 priority={i === 0}
               />

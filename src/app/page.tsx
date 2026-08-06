@@ -1,12 +1,11 @@
-import Link from "next/link";
-import { Camera, Flame, Gauge, MessageCircle, Sparkles, Zap } from "lucide-react";
+import { Camera, Flame, Gauge, Sparkles, Zap } from "lucide-react";
 import { HeroVisual } from "@/components/sections/HeroVisual";
 import { FlavorsGrid } from "@/components/sections/FlavorsGrid";
 import { CTASection } from "@/components/sections/CTASection";
 import { Marquee } from "@/components/motion/Marquee";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/motion/Reveal";
 import { InterlockedRings } from "@/components/icons/InterlockedRings";
-import { INSTAGRAM_HANDLE, INSTAGRAM_LINK, WHATSAPP_LINK } from "@/lib/utils";
+import { INSTAGRAM_HANDLE, INSTAGRAM_LINK } from "@/lib/utils";
 
 const marqueeItems = [
   "KIWI Y FRESA",
@@ -58,23 +57,6 @@ export default function Home() {
               <br />
               <span className="text-gradient">SIN EXCUSAS.</span>
             </h1>
-            <div className="mt-14 flex flex-wrap items-center gap-4 sm:mt-16">
-              <a
-                href={WHATSAPP_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3.5 text-sm font-bold text-background transition-transform duration-200 hover:scale-[1.03] active:scale-95 cursor-pointer"
-              >
-                <MessageCircle className="size-4" aria-hidden="true" />
-                Pedir por WhatsApp
-              </a>
-              <Link
-                href="#sabores"
-                className="inline-flex items-center gap-2 rounded-full border border-border px-7 py-3.5 text-sm font-bold text-foreground transition-colors duration-200 hover:border-green hover:text-green cursor-pointer"
-              >
-                Ver sabores
-              </Link>
-            </div>
           </Reveal>
 
           <HeroVisual />
@@ -114,7 +96,7 @@ export default function Home() {
           </Reveal>
 
           <div className="mt-14">
-            <FlavorsGrid withCta />
+            <FlavorsGrid />
           </div>
         </div>
       </section>
