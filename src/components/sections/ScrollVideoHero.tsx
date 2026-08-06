@@ -59,8 +59,31 @@ export function ScrollVideoHero() {
     if (!video || !section) return;
 
     if (!scrubEnabled) {
-      video.play().catch(() => {});
-      return;
+      const tryPlay = () => video.play().catch(() => {});
+      tryPlay();
+
+      // The very first autoplay attempt can silently fail on some mobile
+      // browsers (notably Safari in Private Browsing) even though it's
+      // muted+inline — retry a few times shortly after in case it was just
+      // a startup race, and again on the first real interaction, which
+      // reliably unlocks playback if it was actually policy-blocked.
+      const timeouts = [100, 500, 1500].map((delay) =>
+        window.setTimeout(() => {
+          if (video.paused) tryPlay();
+        }, delay)
+      );
+
+      const retryEvents: Array<keyof WindowEventMap> = ["touchstart", "scroll", "click"];
+      const retry = () => {
+        if (video.paused) tryPlay();
+        retryEvents.forEach((evt) => window.removeEventListener(evt, retry));
+      };
+      retryEvents.forEach((evt) => window.addEventListener(evt, retry, { once: true, passive: true }));
+
+      return () => {
+        timeouts.forEach((id) => window.clearTimeout(id));
+        retryEvents.forEach((evt) => window.removeEventListener(evt, retry));
+      };
     }
 
     video.pause();
@@ -100,9 +123,10 @@ export function ScrollVideoHero() {
           height={VIDEO_HEIGHT}
           muted
           loop={!scrubEnabled}
+          autoPlay={!scrubEnabled}
           playsInline
           preload="auto"
-          className="max-h-[85vh] w-full max-w-5xl object-contain"
+          className="h-full w-full object-cover sm:h-auto sm:max-h-[85vh] sm:w-full sm:max-w-5xl sm:object-contain"
           style={{
             maskImage: BACKDROP_MASK,
             WebkitMaskImage: BACKDROP_MASK,
