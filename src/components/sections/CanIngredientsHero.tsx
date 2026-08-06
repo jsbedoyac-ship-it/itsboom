@@ -26,13 +26,14 @@ function getFinePointerServerSnapshot() {
 
 const VIDEO_SRC = "/video-can-clean.mp4";
 const POSTER_SRC = "/video-can-poster.jpg";
-const VIDEO_WIDTH = 520;
-const VIDEO_HEIGHT = 1280;
+// Native crop is 520x1280 — expressed reduced (13:32) so the wrapper's
+// aspect-ratio always matches the source exactly, whatever height it's given.
+const VIDEO_ASPECT = "13/32";
 
 // Fades the video's own black backdrop toward the edges so only the can
 // (plus a soft glow) reads against the page background.
 const BACKDROP_MASK =
-  "radial-gradient(ellipse 62% 70% at 45% 48%, black 45%, transparent 84%)";
+  "radial-gradient(ellipse 68% 72% at 50% 48%, black 50%, transparent 88%)";
 
 const ICONS: LucideIcon[] = [Zap, Droplets, Flame, Waves, HeartPulse, Brain];
 
@@ -44,7 +45,9 @@ const accentCycle = ["text-pink", "text-gold", "text-green", "text-purple"] as c
  * benefits beside it (one per scroll segment) — same beat as a
  * scroll-scrubbed benefits hero. Touch devices skip the pin/scrub (same
  * currentTime-seek issue documented below) and get a normal-height video
- * plus a static ingredients grid instead.
+ * plus a static ingredients grid instead — same bounded aspect-ratio box
+ * and object-contain treatment as desktop, just sized down, so the can
+ * reads identically (never cropped) on both.
  */
 export function CanIngredientsHero() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -65,21 +68,40 @@ export function CanIngredientsHero() {
     if (!video || !section) return;
 
     if (!scrubEnabled) {
+      // Some mobile browsers only honor "muted" for autoplay purposes when
+      // it's set as a JS property (not just the HTML attribute) before the
+      // first play() call.
+      video.muted = true;
+      video.defaultMuted = true;
+
       const tryPlay = () => video.play().catch(() => {});
       tryPlay();
 
       // The very first autoplay attempt can silently fail on some mobile
-      // browsers (notably Safari in Private Browsing) even though it's
-      // muted+inline — retry a few times shortly after in case it was just
-      // a startup race, and again on the first real interaction, which
-      // reliably unlocks playback if it was actually policy-blocked.
-      const timeouts = [100, 500, 1500].map((delay) =>
+      // browsers (notably Safari in Private Browsing, or right after a cold
+      // load) even though it's muted+inline — retry on a schedule, when the
+      // section actually scrolls into view, and again on the first real
+      // interaction, which reliably unlocks playback if it was policy-blocked.
+      const timeouts = [50, 300, 1000, 2500].map((delay) =>
         window.setTimeout(() => {
           if (video.paused) tryPlay();
         }, delay)
       );
 
-      const retryEvents: Array<keyof WindowEventMap> = ["touchstart", "scroll", "click"];
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0]?.isIntersecting && video.paused) tryPlay();
+        },
+        { threshold: 0.15 }
+      );
+      observer.observe(section);
+
+      const retryEvents: Array<keyof WindowEventMap> = [
+        "touchstart",
+        "scroll",
+        "click",
+        "pointerdown",
+      ];
       const retry = () => {
         if (video.paused) tryPlay();
         retryEvents.forEach((evt) => window.removeEventListener(evt, retry));
@@ -88,6 +110,7 @@ export function CanIngredientsHero() {
 
       return () => {
         timeouts.forEach((id) => window.clearTimeout(id));
+        observer.disconnect();
         retryEvents.forEach((evt) => window.removeEventListener(evt, retry));
       };
     }
@@ -128,17 +151,12 @@ export function CanIngredientsHero() {
       ref={videoRef}
       src={VIDEO_SRC}
       poster={POSTER_SRC}
-      width={VIDEO_WIDTH}
-      height={VIDEO_HEIGHT}
       muted
       loop={!scrubEnabled}
       autoPlay={!scrubEnabled}
       playsInline
       preload="auto"
-      className={cn(
-        "w-auto max-w-none object-contain",
-        scrubEnabled ? "h-full" : "mx-auto h-[52vh] sm:h-[60vh]"
-      )}
+      className="h-full w-full object-contain"
       style={{
         maskImage: BACKDROP_MASK,
         WebkitMaskImage: BACKDROP_MASK,
@@ -146,55 +164,68 @@ export function CanIngredientsHero() {
     />
   );
 
+  // Bounded box the video sits in — height-driven, aspect-ratio locked, so
+  // the can is always shown in full (never cropped by a flex column) at a
+  // size proportional to the viewport, on both desktop and mobile.
+  const canBox = (
+    <div
+      className={cn(
+        "relative shrink-0",
+        scrubEnabled
+          ? "h-[78vh] max-h-[760px]"
+          : "h-[52vh] max-h-[460px] w-full max-w-[280px] sm:h-[62vh] sm:max-h-[560px] sm:max-w-[320px]"
+      )}
+      style={{ aspectRatio: VIDEO_ASPECT }}
+    >
+      {video}
+    </div>
+  );
+
   return (
     <section ref={sectionRef} className="relative bg-background">
       {scrubEnabled ? (
-        <div className="flex h-screen w-full items-center overflow-hidden">
-          <div className="flex h-full w-1/2 items-center justify-center sm:w-2/5">
-            {video}
-          </div>
+        <div className="flex h-screen w-full items-center justify-center gap-10 overflow-hidden px-6 sm:gap-16 sm:px-12">
+          {canBox}
 
-          <div className="w-1/2 px-5 sm:w-3/5 sm:px-10 lg:px-16">
-            <div className="mx-auto max-w-md">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={active.label}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -16 }}
-                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <p className="font-mono-brand text-xs font-semibold uppercase tracking-[0.3em] text-muted">
-                    Ingrediente {String(activeIndex + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
-                  </p>
-                  <ActiveIcon className={cn("mt-5 size-9", activeAccent)} aria-hidden="true" />
-                  <h3 className="font-display mt-4 text-3xl font-black uppercase tracking-tight sm:text-4xl">
-                    {active.label}
-                  </h3>
-                  <p className={cn("mt-1 text-lg font-bold", activeAccent)}>{active.value}</p>
-                  <p className="mt-4 text-sm leading-relaxed text-muted sm:text-base">
-                    {active.description}
-                  </p>
-                </motion.div>
-              </AnimatePresence>
+          <div className="w-full max-w-sm sm:max-w-md">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={active.label}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <p className="font-mono-brand text-xs font-semibold uppercase tracking-[0.3em] text-muted">
+                  Ingrediente {String(activeIndex + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
+                </p>
+                <ActiveIcon className={cn("mt-5 size-9", activeAccent)} aria-hidden="true" />
+                <h3 className="font-display mt-4 text-3xl font-black uppercase tracking-tight sm:text-4xl">
+                  {active.label}
+                </h3>
+                <p className={cn("mt-1 text-lg font-bold", activeAccent)}>{active.value}</p>
+                <p className="mt-4 text-sm leading-relaxed text-muted sm:text-base">
+                  {active.description}
+                </p>
+              </motion.div>
+            </AnimatePresence>
 
-              <div className="mt-10 flex gap-2">
-                {ingredientBenefits.map((item, i) => (
-                  <span
-                    key={item.label}
-                    className={cn(
-                      "h-1 flex-1 rounded-full transition-colors duration-300",
-                      i === activeIndex ? "bg-gold" : "bg-border"
-                    )}
-                  />
-                ))}
-              </div>
+            <div className="mt-10 flex gap-2">
+              {ingredientBenefits.map((item, i) => (
+                <span
+                  key={item.label}
+                  className={cn(
+                    "h-1 flex-1 rounded-full transition-colors duration-300",
+                    i === activeIndex ? "bg-gold" : "bg-border"
+                  )}
+                />
+              ))}
             </div>
           </div>
         </div>
       ) : (
         <div className="flex w-full flex-col items-center gap-10 py-14">
-          {video}
+          {canBox}
 
           <div className="grid w-full grid-cols-2 gap-3 px-5 sm:px-8">
             {ingredientBenefits.map((item, i) => {
