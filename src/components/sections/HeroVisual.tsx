@@ -69,7 +69,7 @@ export function HeroVisual() {
             }}
             whileHover={shouldReduceMotion ? undefined : { scale: 1.05 }}
           >
-            <div className="relative h-full w-full drop-shadow-[0_30px_80px_rgba(0,0,0,0.75)]">
+            <div className="relative h-full w-full">
               <Image
                 src={can.src}
                 alt={`Lata IT'S BOOM sabor ${can.name}`}
