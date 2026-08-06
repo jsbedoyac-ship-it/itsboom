@@ -1,5 +1,5 @@
 import { Camera, CandyOff, Flame, Gauge, Sparkles, Zap } from "lucide-react";
-import { HeroVisual } from "@/components/sections/HeroVisual";
+import { ScrollVideoHero } from "@/components/sections/ScrollVideoHero";
 import { FlavorsGrid } from "@/components/sections/FlavorsGrid";
 import { CTASection } from "@/components/sections/CTASection";
 import { Marquee } from "@/components/motion/Marquee";
@@ -43,7 +43,7 @@ const values = [
 export default function Home() {
   return (
     <>
-      <section className="relative overflow-hidden">
+      <section className="relative">
         <div className="mx-auto max-w-3xl px-5 pb-6 pt-16 text-center sm:px-8 sm:pt-24">
           <Reveal>
             <p className="font-mono-brand inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-green">
@@ -58,11 +58,7 @@ export default function Home() {
           </Reveal>
         </div>
 
-        <div className="mx-auto max-w-6xl px-5 pb-4 sm:px-8">
-          <Reveal delay={0.15}>
-            <HeroVisual />
-          </Reveal>
-        </div>
+        <ScrollVideoHero />
 
         <div className="border-y border-border bg-surface py-5">
           <Marquee items={marqueeItems} speed="rapid" />
