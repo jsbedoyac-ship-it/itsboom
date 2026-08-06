@@ -11,18 +11,18 @@ const heroCans = [
     src: "/card-kiwi-fresa-v2.png",
     width: 451,
     height: 1086,
-    baseRotate: 11,
-    clinkDelta: 7,
-    overshoot: -3,
+    baseRotate: 8,
+    clinkDelta: 5,
+    overshoot: -2,
   },
   {
     ...flavors[1],
     src: "/card-mora-azul-v2.png",
     width: 413,
     height: 962,
-    baseRotate: -11,
-    clinkDelta: -7,
-    overshoot: 3,
+    baseRotate: -8,
+    clinkDelta: -5,
+    overshoot: 2,
   },
 ];
 
@@ -33,7 +33,7 @@ export function HeroVisual() {
     <div className="relative isolate flex h-[clamp(22rem,85vw,55rem)] items-center justify-center overflow-hidden rounded-[2rem] border border-border">
       <ElectricMist color="#2E6BE0" speed={0.6} detail={1.4} distortion={2.4} brightness={1.15} />
 
-      <div className="relative z-10 flex h-full w-full max-w-3xl items-center justify-center gap-6 px-4 py-10 sm:max-w-4xl sm:gap-10 lg:max-w-5xl">
+      <div className="relative z-10 flex h-full w-full max-w-3xl items-center justify-center gap-16 px-4 py-10 sm:max-w-4xl sm:gap-24 lg:max-w-5xl lg:gap-28">
         {heroCans.map((can, i) => (
           <motion.div
             key={can.id}

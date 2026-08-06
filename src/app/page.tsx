@@ -36,7 +36,7 @@ const values = [
   {
     icon: CandyOff,
     title: "Cero Azúcar",
-    description: "Endulzada con sucralosa y acesulfame K: toda la energía, sin azúcar añadida.",
+    description: "Toda la energía, sin azúcar añadida.",
   },
 ];
 
