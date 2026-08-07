@@ -9,6 +9,10 @@ type MarqueeProps = {
    * types (e.g. cards) much wider than the presets were tuned for. */
   duration?: number;
   reverse?: boolean;
+  /** Pause the track while hovered — on by default so a row someone might
+   * want to read (cards) doesn't slide away mid-read. Set false for a
+   * strip that should never stop, hover or not. */
+  pauseOnHover?: boolean;
 };
 
 // Base duration (seconds) each --animate-marquee* keyframe uses for a single
@@ -24,7 +28,14 @@ const BASE_DURATION: Record<NonNullable<MarqueeProps["speed"]>, number> = {
 // show a gap while looping.
 const MIN_COPIES = 10;
 
-export function Marquee({ items, className, speed = "normal", duration, reverse = false }: MarqueeProps) {
+export function Marquee({
+  items,
+  className,
+  speed = "normal",
+  duration,
+  reverse = false,
+  pauseOnHover = true,
+}: MarqueeProps) {
   const repeat = Math.max(1, Math.ceil(MIN_COPIES / items.length));
   const half = Array.from({ length: repeat }, () => items).flat();
   const track = [...half, ...half];
@@ -37,10 +48,11 @@ export function Marquee({ items, className, speed = "normal", duration, reverse 
     <div className={cn("relative overflow-hidden", className)}>
       <div
         className={cn(
-          "flex w-max items-center gap-8 will-change-transform motion-safe:animate-marquee hover:[animation-play-state:paused]",
+          "flex w-max items-center gap-8 will-change-transform motion-safe:animate-marquee",
           speed === "fast" && "motion-safe:animate-marquee-fast",
           speed === "rapid" && "motion-safe:animate-marquee-rapid",
-          reverse && "[animation-direction:reverse]"
+          reverse && "[animation-direction:reverse]",
+          pauseOnHover && "hover:[animation-play-state:paused]"
         )}
         style={{ animationDuration: `${resolvedDuration}s` }}
       >
