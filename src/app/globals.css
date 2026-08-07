@@ -49,6 +49,8 @@
   --animate-glow-pulse: glow-pulse 4s ease-in-out infinite;
   --animate-float: float 6s ease-in-out infinite;
   --animate-gradient-shimmer: gradient-shimmer 5s ease-in-out infinite;
+  --animate-bolt-flash: bolt-flash 5s ease-out infinite;
+  --animate-text-surge: text-surge 5s ease-out infinite;
 }
 
 @keyframes marquee {
@@ -89,6 +91,47 @@
   }
   50% {
     background-position: 100% 50%;
+  }
+}
+
+/* A bolt sits dark for most of its 5s cycle, then cracks with a fast
+   double-flicker near the start — real strikes read as a sudden stutter,
+   not a smooth fade. Each bolt in the hero reuses this keyframe with a
+   small stagger via animation-delay, so they crack in a quick cascade
+   instead of firing all at once. */
+@keyframes bolt-flash {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  0.6% {
+    opacity: 1;
+  }
+  1.4% {
+    opacity: 0.15;
+  }
+  2.2% {
+    opacity: 0.9;
+  }
+  3% {
+    opacity: 0;
+  }
+}
+
+/* Synced to the first bolt in the cascade (no delay) so the headline
+   itself flares the instant the lightning cracks, like it's the thing
+   conducting the current, then settles back to normal for the rest of
+   the cycle. */
+@keyframes text-surge {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  1% {
+    filter: drop-shadow(0 0 3px var(--gold)) drop-shadow(0 0 22px var(--pink));
+  }
+  3% {
+    filter: drop-shadow(0 0 0 transparent);
   }
 }
 
