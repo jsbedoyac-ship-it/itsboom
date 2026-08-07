@@ -120,18 +120,30 @@
 
 /* A faint blue/red charge sits on the headline at all times — it never
    fully goes dark, since bolts keep cracking around it throughout the
-   cycle — and flares bright white the instant the first bolt cracks
-   (delay: 0), like the type is what's actually conducting the current. */
+   cycle — and flares bright white with a tiny physical jolt (a 1px
+   punch, not a redraw-triggering shift) the instant the first bolt
+   cracks (delay: 0), like the type is what's actually conducting the
+   current. Both the glow and the jolt live in one keyframe rather than
+   two separate animate-* utilities, since applying two animation
+   shorthands to the same element would just have the second overwrite
+   the first instead of combining. */
 @keyframes text-surge {
   0%,
   100% {
     filter: drop-shadow(0 0 6px rgba(46, 155, 255, 0.25)) drop-shadow(0 0 12px rgba(255, 59, 78, 0.16));
+    transform: translate(0, 0) skew(0deg);
   }
   1% {
     filter: drop-shadow(0 0 4px #ffffff) drop-shadow(0 0 22px #2e9bff) drop-shadow(0 0 36px #ff3b4e);
+    transform: translate(1px, -1px) skew(-1deg);
+  }
+  2% {
+    filter: drop-shadow(0 0 4px #ffffff) drop-shadow(0 0 18px #2e9bff) drop-shadow(0 0 30px #ff3b4e);
+    transform: translate(-1px, 1px) skew(0.8deg);
   }
   3% {
     filter: drop-shadow(0 0 6px rgba(46, 155, 255, 0.25)) drop-shadow(0 0 12px rgba(255, 59, 78, 0.16));
+    transform: translate(0, 0) skew(0deg);
   }
 }
 
