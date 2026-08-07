@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { MessageSquare, PackageCheck, ShoppingBag } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
-import { BrandWordmark } from "@/components/sections/BrandWordmark";
 import { FlavorsGrid } from "@/components/sections/FlavorsGrid";
 import { CardsMarquee, PACK_SLIDES } from "@/components/sections/CardsMarquee";
 import { IngredientsPanel } from "@/components/sections/IngredientsPanel";
@@ -84,10 +83,6 @@ export default function ProductosPage() {
       </section>
 
       <CTASection />
-
-      <section className="border-t border-border py-16">
-        <BrandWordmark />
-      </section>
     </>
   );
 }

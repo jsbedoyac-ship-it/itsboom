@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Compass, Flame, HeartHandshake, Sparkles } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
-import { BrandWordmark } from "@/components/sections/BrandWordmark";
 import { CTASection } from "@/components/sections/CTASection";
 import { Marquee } from "@/components/motion/Marquee";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/motion/Reveal";
@@ -111,10 +110,6 @@ export default function NosotrosPage() {
       </section>
 
       <CTASection />
-
-      <section className="border-t border-border py-16">
-        <BrandWordmark />
-      </section>
     </>
   );
 }
