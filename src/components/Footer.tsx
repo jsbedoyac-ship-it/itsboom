@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { MessageCircle } from "lucide-react";
 import { InstagramIcon } from "@/components/icons/InstagramIcon";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { INSTAGRAM_HANDLE, INSTAGRAM_LINK, WHATSAPP_LINK } from "@/lib/utils";
 
 const links = [
@@ -67,7 +67,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-foreground cursor-pointer"
               >
-                <MessageCircle className="size-4" aria-hidden="true" />
+                <WhatsAppIcon className="size-4" />
                 Escríbenos por WhatsApp
               </a>
             </div>

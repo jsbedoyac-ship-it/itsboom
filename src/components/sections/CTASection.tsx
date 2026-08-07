@@ -1,5 +1,6 @@
-import { MessageCircle, Store } from "lucide-react";
+import { Store } from "lucide-react";
 import { Reveal } from "@/components/motion/Reveal";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { WHATSAPP_LINK } from "@/lib/utils";
 
 export function CTASection() {
@@ -34,7 +35,7 @@ export function CTASection() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3.5 text-sm font-bold text-background transition-transform duration-200 hover:scale-[1.03] active:scale-95 cursor-pointer"
             >
-              <MessageCircle className="size-4" aria-hidden="true" />
+              <WhatsAppIcon className="size-4" />
               Quiero ser distribuidor
             </a>
           </div>

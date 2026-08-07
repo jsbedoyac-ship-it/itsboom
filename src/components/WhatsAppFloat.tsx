@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MessageCircle } from "lucide-react";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { WHATSAPP_LINK } from "@/lib/utils";
 
 export function WhatsAppFloat() {
@@ -18,7 +18,7 @@ export function WhatsAppFloat() {
       whileTap={{ scale: 0.95 }}
       className="fixed bottom-6 right-6 z-40 flex size-14 items-center justify-center rounded-full bg-gold text-background shadow-[0_0_24px_rgba(245,166,35,0.45)] cursor-pointer"
     >
-      <MessageCircle className="size-6" aria-hidden="true" />
+      <WhatsAppIcon className="size-6" />
     </motion.a>
   );
 }

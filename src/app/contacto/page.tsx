@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { ChevronDown, MessageCircle, Store } from "lucide-react";
+import { ChevronDown, Store } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/motion/Reveal";
 import { InstagramIcon } from "@/components/icons/InstagramIcon";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { INSTAGRAM_HANDLE, INSTAGRAM_LINK, WHATSAPP_LINK } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -49,7 +50,7 @@ export default function ContactoPage() {
               rel="noopener noreferrer"
               className="group flex h-full flex-col rounded-2xl border border-border bg-surface p-6 transition-colors duration-300 hover:border-gold/60 cursor-pointer"
             >
-              <MessageCircle className="size-7 text-gold" aria-hidden="true" />
+              <WhatsAppIcon className="size-7 text-gold" />
               <h3 className="font-display mt-4 text-lg font-bold">WhatsApp</h3>
               <p className="mt-2 text-sm text-muted">
                 La forma más rápida de pedir o resolver dudas.

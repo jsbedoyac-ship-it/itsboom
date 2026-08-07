@@ -5,7 +5,8 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X, MessageCircle } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { cn, WHATSAPP_LINK } from "@/lib/utils";
 
 const links = [
@@ -66,7 +67,7 @@ export function Navbar() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-gold px-5 py-2.5 text-sm font-bold text-background transition-transform duration-200 hover:scale-[1.03] active:scale-95 cursor-pointer"
           >
-            <MessageCircle className="size-4" aria-hidden="true" />
+            <WhatsAppIcon className="size-4" />
             Pedir ahora
           </a>
         </div>
@@ -113,7 +114,7 @@ export function Navbar() {
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 rounded-full bg-gold px-5 py-3 text-sm font-bold text-background cursor-pointer"
                 >
-                  <MessageCircle className="size-4" aria-hidden="true" />
+                  <WhatsAppIcon className="size-4" />
                   Pedir ahora
                 </a>
               </li>

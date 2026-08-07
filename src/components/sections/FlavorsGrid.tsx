@@ -2,7 +2,7 @@ import Image from "next/image";
 import { flavors } from "@/lib/flavors";
 import { StaggerGroup, StaggerItem } from "@/components/motion/Reveal";
 import { WHATSAPP_LINK } from "@/lib/utils";
-import { MessageCircle } from "lucide-react";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { IngredientsPanel } from "@/components/sections/IngredientsPanel";
 
 export function FlavorsGrid({ withCta = false }: { withCta?: boolean }) {
@@ -52,7 +52,7 @@ export function FlavorsGrid({ withCta = false }: { withCta?: boolean }) {
                     rel="noopener noreferrer"
                     className="mt-5 inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-xs font-bold uppercase tracking-wide text-foreground transition-colors duration-200 hover:border-gold hover:text-gold cursor-pointer"
                   >
-                    <MessageCircle className="size-3.5" aria-hidden="true" />
+                    <WhatsAppIcon className="size-3.5" />
                     Pedir {flavor.name}
                   </a>
                 )}
