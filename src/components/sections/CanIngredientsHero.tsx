@@ -28,26 +28,37 @@ const VIDEO_SRC = "/can-boom-reveal.mp4";
 const POSTER_SRC = "/can-boom-reveal-poster.jpg";
 // Native processed frame is 580x1050 — the can shot rotoscoped frame-by-frame
 // (background/bokeh keyed out and repainted to the exact page background, so
-// the rectangular video edge is invisible rather than transparent) and
+// the rectangular frame edge is invisible rather than transparent) and
 // played back-to-front so the IT'S BOOM face leads.
 const VIDEO_ASPECT = "580/1050";
+const FRAME_WIDTH = 580;
+const FRAME_HEIGHT = 1050;
+const FRAME_COUNT = 121;
+const frameSrc = (n: number) => `/can-frames/f${String(n).padStart(3, "0")}.webp`;
 
 const ICONS: LucideIcon[] = [Zap, Droplets, Flame, Waves, HeartPulse, Brain];
 
 const accentCycle = ["text-pink", "text-gold", "text-green", "text-purple"] as const;
 
 /**
- * Hero: the can stays pinned in view while scrolling scrubs the product
- * video's currentTime and, in lockstep, cycles through the ingredient
- * benefits beside it (one per scroll segment). Touch devices skip the
- * pin/scrub (currentTime seeks don't reliably resolve to a visible frame on
- * iOS Safari) and get a normal-height autoplaying loop plus a static
+ * Hero: the can stays pinned in view while scrolling scrubs through a
+ * preloaded still-frame sequence (drawn to a canvas) and, in lockstep,
+ * cycles through the ingredient benefits beside it. A canvas image
+ * sequence is used instead of scrubbing a <video>'s currentTime because
+ * rapid-fire seeks during fast scrolling can outrun the decoder — Safari
+ * in particular can leave a torn, partially-decoded frame on screen
+ * (reading as a black bite out of the can) instead of catching up or
+ * erroring. Drawing an already-loaded HTMLImageElement is synchronous, so
+ * every paint is a complete frame. Touch devices skip the pin/scrub
+ * entirely and get a normal-height autoplaying video loop plus a static
  * ingredients grid instead — same bounded aspect-ratio box either way, so
  * the can is never cropped by its container.
  */
 export function CanIngredientsHero() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const framesRef = useRef<HTMLImageElement[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const shouldReduceMotion = useReducedMotion();
   const hasFinePointer = useSyncExternalStore(
@@ -59,99 +70,102 @@ export function CanIngredientsHero() {
   const count = ingredientBenefits.length;
 
   useEffect(() => {
-    const video = videoRef.current;
     const section = sectionRef.current;
-    if (!video || !section) return;
+    const canvas = canvasRef.current;
+    if (!scrubEnabled || !section || !canvas) return;
 
-    if (!scrubEnabled) {
-      // Some mobile browsers only honor "muted" for autoplay purposes when
-      // it's set as a JS property (not just the HTML attribute) before the
-      // first play() call.
-      video.muted = true;
-      video.defaultMuted = true;
+    const images = Array.from({ length: FRAME_COUNT }, (_, i) => {
+      const img = new Image();
+      img.src = frameSrc(i + 1);
+      return img;
+    });
+    framesRef.current = images;
 
-      const tryPlay = () => video.play().catch(() => {});
-      tryPlay();
+    const ctx2d = canvas.getContext("2d");
+    const drawFrame = (index: number) => {
+      const img = images[index];
+      if (!ctx2d || !img.complete || img.naturalWidth === 0) return;
+      ctx2d.drawImage(img, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+    };
 
-      const timeouts = [50, 300, 1000, 2500].map((delay) =>
-        window.setTimeout(() => {
-          if (video.paused) tryPlay();
-        }, delay)
-      );
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0]?.isIntersecting && video.paused) tryPlay();
-        },
-        { threshold: 0.15 }
-      );
-      observer.observe(section);
-
-      const retryEvents: Array<keyof WindowEventMap> = [
-        "touchstart",
-        "scroll",
-        "click",
-        "pointerdown",
-      ];
-      const retry = () => {
-        if (video.paused) tryPlay();
-        retryEvents.forEach((evt) => window.removeEventListener(evt, retry));
-      };
-      retryEvents.forEach((evt) => window.addEventListener(evt, retry, { once: true, passive: true }));
-
-      return () => {
-        timeouts.forEach((id) => window.clearTimeout(id));
-        observer.disconnect();
-        retryEvents.forEach((evt) => window.removeEventListener(evt, retry));
-      };
+    if (images[0].complete) {
+      drawFrame(0);
+    } else {
+      images[0].addEventListener("load", () => drawFrame(0), { once: true });
     }
 
-    video.pause();
     gsap.registerPlugin(ScrollTrigger);
-
     const ctx = gsap.context(() => {
-      const trigger = ScrollTrigger.create({
+      ScrollTrigger.create({
         trigger: section,
         start: "top top",
         end: () => "+=" + window.innerHeight * count,
         pin: true,
         scrub: true,
         onUpdate: (self) => {
-          if (video.duration) {
-            video.currentTime = self.progress * video.duration;
-          }
-          const idx = Math.min(count - 1, Math.floor(self.progress * count));
-          setActiveIndex(idx);
+          const frameIdx = Math.min(FRAME_COUNT - 1, Math.round(self.progress * (FRAME_COUNT - 1)));
+          drawFrame(frameIdx);
+          const benefitIdx = Math.min(count - 1, Math.floor(self.progress * count));
+          setActiveIndex(benefitIdx);
         },
       });
-
-      if (video.readyState < 1) {
-        video.addEventListener("loadedmetadata", () => trigger.refresh(), { once: true });
-      }
     }, section);
 
     return () => ctx.revert();
   }, [scrubEnabled, count]);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    const section = sectionRef.current;
+    if (scrubEnabled || !video || !section) return;
+
+    // Some mobile browsers only honor "muted" for autoplay purposes when
+    // it's set as a JS property (not just the HTML attribute) before the
+    // first play() call.
+    video.muted = true;
+    video.defaultMuted = true;
+
+    const tryPlay = () => video.play().catch(() => {});
+    tryPlay();
+
+    const timeouts = [50, 300, 1000, 2500].map((delay) =>
+      window.setTimeout(() => {
+        if (video.paused) tryPlay();
+      }, delay)
+    );
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting && video.paused) tryPlay();
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(section);
+
+    const retryEvents: Array<keyof WindowEventMap> = [
+      "touchstart",
+      "scroll",
+      "click",
+      "pointerdown",
+    ];
+    const retry = () => {
+      if (video.paused) tryPlay();
+      retryEvents.forEach((evt) => window.removeEventListener(evt, retry));
+    };
+    retryEvents.forEach((evt) => window.addEventListener(evt, retry, { once: true, passive: true }));
+
+    return () => {
+      timeouts.forEach((id) => window.clearTimeout(id));
+      observer.disconnect();
+      retryEvents.forEach((evt) => window.removeEventListener(evt, retry));
+    };
+  }, [scrubEnabled]);
+
   const active = ingredientBenefits[activeIndex];
   const ActiveIcon = ICONS[activeIndex % ICONS.length];
   const activeAccent = accentCycle[activeIndex % accentCycle.length];
 
-  const video = (
-    <video
-      ref={videoRef}
-      src={VIDEO_SRC}
-      poster={POSTER_SRC}
-      muted
-      loop={!scrubEnabled}
-      autoPlay={!scrubEnabled}
-      playsInline
-      preload="auto"
-      className="h-full w-full object-contain"
-    />
-  );
-
-  // Bounded box the video sits in — height-driven, aspect-ratio locked, so
+  // Bounded box the can sits in — height-driven, aspect-ratio locked, so
   // the can is always shown in full (never cropped by a flex column) at a
   // size proportional to the viewport, on both desktop and mobile. The
   // scrub variant's height also caps at 72vw (→ ~40% viewport width once
@@ -171,7 +185,26 @@ export function CanIngredientsHero() {
         ...(scrubEnabled ? { height: "min(78vh, 760px, 72vw)" } : {}),
       }}
     >
-      {video}
+      {scrubEnabled ? (
+        <canvas
+          ref={canvasRef}
+          width={FRAME_WIDTH}
+          height={FRAME_HEIGHT}
+          className="h-full w-full object-contain"
+        />
+      ) : (
+        <video
+          ref={videoRef}
+          src={VIDEO_SRC}
+          poster={POSTER_SRC}
+          muted
+          loop
+          autoPlay
+          playsInline
+          preload="auto"
+          className="h-full w-full object-contain"
+        />
+      )}
     </div>
   );
 
