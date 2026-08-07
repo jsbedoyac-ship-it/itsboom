@@ -153,16 +153,23 @@ export function CanIngredientsHero() {
 
   // Bounded box the video sits in — height-driven, aspect-ratio locked, so
   // the can is always shown in full (never cropped by a flex column) at a
-  // size proportional to the viewport, on both desktop and mobile.
+  // size proportional to the viewport, on both desktop and mobile. The
+  // scrub variant's height also caps at 72vw (→ ~40% viewport width once
+  // the aspect ratio is applied): on a tall-but-narrow window a pure vh
+  // height can demand more width than the pinned row has next to the
+  // ingredient copy, and the row's overflow-hidden then silently clips
+  // the can's edge — reading as a black bite taken out of it.
   const canBox = (
     <div
       className={cn(
         "relative shrink-0",
-        scrubEnabled
-          ? "h-[78vh] max-h-[760px]"
-          : "h-[52vh] max-h-[460px] w-full max-w-[300px] sm:h-[62vh] sm:max-h-[560px] sm:max-w-[340px]"
+        !scrubEnabled &&
+          "h-[52vh] max-h-[460px] w-full max-w-[300px] sm:h-[62vh] sm:max-h-[560px] sm:max-w-[340px]"
       )}
-      style={{ aspectRatio: VIDEO_ASPECT }}
+      style={{
+        aspectRatio: VIDEO_ASPECT,
+        ...(scrubEnabled ? { height: "min(78vh, 760px, 72vw)" } : {}),
+      }}
     >
       {video}
     </div>
