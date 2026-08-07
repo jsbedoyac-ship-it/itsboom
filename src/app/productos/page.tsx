@@ -43,7 +43,11 @@ export default function ProductosPage() {
         <FlavorsGrid withCta />
       </section>
 
-      <CardsMarquee slides={PACK_SLIDES} showHeading={false} />
+      <CardsMarquee
+        slides={PACK_SLIDES}
+        showHeading={false}
+        ctaLabel="Pide aquí tu pack de preferencia"
+      />
 
       <section className="py-20">
         <div className="mx-auto max-w-3xl px-5 sm:px-8">

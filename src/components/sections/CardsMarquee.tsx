@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { Marquee } from "@/components/motion/Marquee";
 import { Reveal } from "@/components/motion/Reveal";
+import { WHATSAPP_LINK } from "@/lib/utils";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 
 type Slide = { src: string; alt: string };
 
@@ -37,9 +39,10 @@ function SlideCard({ src, alt }: Slide) {
 type CardsMarqueeProps = {
   slides?: Slide[];
   showHeading?: boolean;
+  ctaLabel?: string;
 };
 
-export function CardsMarquee({ slides = SPORTS_SLIDES, showHeading = true }: CardsMarqueeProps) {
+export function CardsMarquee({ slides = SPORTS_SLIDES, showHeading = true, ctaLabel }: CardsMarqueeProps) {
   const items = slides.map((slide, i) => <SlideCard key={i} {...slide} />);
 
   return (
@@ -58,6 +61,20 @@ export function CardsMarquee({ slides = SPORTS_SLIDES, showHeading = true }: Car
       <div className={showHeading ? "mt-14" : undefined}>
         <Marquee items={items} duration={100} pauseOnHover={false} />
       </div>
+
+      {ctaLabel && (
+        <Reveal className="mt-10 flex justify-center px-5">
+          <a
+            href={WHATSAPP_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-bold uppercase tracking-wide text-foreground transition-colors duration-200 hover:border-whatsapp hover:text-whatsapp cursor-pointer"
+          >
+            <WhatsAppIcon className="size-4" />
+            {ctaLabel}
+          </a>
+        </Reveal>
+      )}
     </section>
   );
 }
