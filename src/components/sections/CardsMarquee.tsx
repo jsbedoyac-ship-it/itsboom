@@ -40,7 +40,7 @@ export function CardsMarquee() {
       </Reveal>
 
       <div className="mt-14">
-        <Marquee items={slides} duration={42} pauseOnHover={false} />
+        <Marquee items={slides} duration={100} pauseOnHover={false} />
       </div>
     </section>
   );
