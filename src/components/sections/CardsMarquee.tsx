@@ -1,31 +1,32 @@
+import Image from "next/image";
 import { Marquee } from "@/components/motion/Marquee";
 import { Reveal } from "@/components/motion/Reveal";
 
 // Each slide is a fully designed graphic (its own text/branding baked in),
 // so the card is just an image frame — no title/category overlay on top
-// of it. Waiting on the 8 real files to fill this in, in the order given:
-// 1. Energía + enfoque + resistencia
-// 2. Diseñado para altos rendimientos
-// 3. Un impulso para cada disciplina
-// 4. Boxeo
-// 5. Bici cross
-// 6. Moto cross
-// 7. CrossFit / Hyrox / Artes marciales
-// 8. Un solo impulso, infinitas posibilidades
-const SLIDE_COUNT = 8;
+// of it. All 8 are ~1290x1280 (near-square), so a square frame with
+// object-cover fits every one without a custom aspect per slide.
+const SLIDES = [
+  { src: "/Igamenes/slide-energia-enfoque-resistencia.jpg", alt: "Energía, enfoque y resistencia" },
+  { src: "/Igamenes/slide-altos-rendimientos.jpg", alt: "Diseñado para altos rendimientos" },
+  { src: "/Igamenes/slide-impulso-cada-disciplina.jpg", alt: "Un impulso para cada disciplina" },
+  { src: "/Igamenes/slide-boxeo.jpg", alt: "IT'S BOOM para boxeo" },
+  { src: "/Igamenes/slide-bici-cross.jpg", alt: "IT'S BOOM para bici cross" },
+  { src: "/Igamenes/slide-moto-cross.jpg", alt: "IT'S BOOM para moto cross" },
+  { src: "/Igamenes/slide-crossfit-hyrox-artes-marciales.jpg", alt: "IT'S BOOM para CrossFit, Hyrox y artes marciales" },
+  { src: "/Igamenes/slide-infinitas-posibilidades.jpg", alt: "Un solo impulso, infinitas posibilidades" },
+];
 
-function SlideCard({ index }: { index: number }) {
+function SlideCard({ src, alt }: { src: string; alt: string }) {
   return (
-    <div className="flex h-[440px] w-[320px] shrink-0 items-center justify-center overflow-hidden rounded-3xl border border-border bg-surface sm:h-[500px] sm:w-[360px]">
-      <span className="font-mono-brand text-xs uppercase tracking-[0.3em] text-muted">
-        Imagen {index + 1}
-      </span>
+    <div className="relative aspect-square w-[320px] shrink-0 overflow-hidden rounded-3xl border border-border sm:w-[380px]">
+      <Image src={src} alt={alt} fill sizes="(min-width: 640px) 380px, 320px" className="object-cover" />
     </div>
   );
 }
 
 export function CardsMarquee() {
-  const slides = Array.from({ length: SLIDE_COUNT }, (_, i) => <SlideCard key={i} index={i} />);
+  const slides = SLIDES.map((slide, i) => <SlideCard key={i} {...slide} />);
 
   return (
     <section className="overflow-hidden border-t border-border bg-surface-2/40 py-20">
