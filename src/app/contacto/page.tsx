@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ChevronDown, Store } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
+import { BrandWordmark } from "@/components/sections/BrandWordmark";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/motion/Reveal";
 import { InstagramIcon } from "@/components/icons/InstagramIcon";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
@@ -122,6 +123,10 @@ export default function ContactoPage() {
             ))}
           </div>
         </div>
+      </section>
+
+      <section className="border-t border-border py-16">
+        <BrandWordmark />
       </section>
     </>
   );

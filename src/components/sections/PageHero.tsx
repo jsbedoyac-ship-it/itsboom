@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Reveal } from "@/components/motion/Reveal";
+import { BrandWordmark } from "@/components/sections/BrandWordmark";
 
 export function PageHero({
   eyebrow,
@@ -19,6 +20,9 @@ export function PageHero({
         aria-hidden="true"
       />
       <div className="relative mx-auto max-w-4xl px-5 py-20 text-center sm:px-8 sm:py-28">
+        <Reveal className="mb-8 sm:mb-12">
+          <BrandWordmark />
+        </Reveal>
         <Reveal>
           <p className="font-mono-brand text-xs font-semibold uppercase tracking-[0.3em] text-green">
             {eyebrow}
