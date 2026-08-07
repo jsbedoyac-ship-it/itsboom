@@ -1,6 +1,7 @@
 import { Camera, CandyOff, Gauge, Sparkles, Zap } from "lucide-react";
 import { CanIngredientsHero } from "@/components/sections/CanIngredientsHero";
 import { HeroHeadline } from "@/components/sections/HeroHeadline";
+import { BrandWordmark } from "@/components/sections/BrandWordmark";
 import { FlavorsGrid } from "@/components/sections/FlavorsGrid";
 import { CTASection } from "@/components/sections/CTASection";
 import { Marquee } from "@/components/motion/Marquee";
@@ -48,6 +49,8 @@ export default function Home() {
         <div className="mx-auto max-w-3xl px-5 pb-6 pt-16 text-center sm:px-8 sm:pt-24">
           <HeroHeadline />
         </div>
+
+        <BrandWordmark />
 
         <CanIngredientsHero />
 

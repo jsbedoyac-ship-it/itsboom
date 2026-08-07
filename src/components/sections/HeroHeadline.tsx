@@ -82,7 +82,7 @@ export function HeroHeadline() {
 
       <h1 className="font-display mt-6 text-5xl font-black leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
         <span className="block overflow-hidden">
-          <Words text="ENERGÍA REAL." shouldReduceMotion={!!shouldReduceMotion} />
+          <Words text="ENERGÍA" shouldReduceMotion={!!shouldReduceMotion} />
         </span>
         <span className="mt-1 block overflow-hidden">
           <Words
