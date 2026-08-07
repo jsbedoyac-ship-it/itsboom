@@ -5,6 +5,9 @@ type MarqueeProps = {
   items: ReactNode[];
   className?: string;
   speed?: "fast" | "normal" | "rapid";
+  /** Seconds for one full loop, overriding the speed preset — for item
+   * types (e.g. cards) much wider than the presets were tuned for. */
+  duration?: number;
   reverse?: boolean;
 };
 
@@ -21,24 +24,25 @@ const BASE_DURATION: Record<NonNullable<MarqueeProps["speed"]>, number> = {
 // show a gap while looping.
 const MIN_COPIES = 10;
 
-export function Marquee({ items, className, speed = "normal", reverse = false }: MarqueeProps) {
+export function Marquee({ items, className, speed = "normal", duration, reverse = false }: MarqueeProps) {
   const repeat = Math.max(1, Math.ceil(MIN_COPIES / items.length));
   const half = Array.from({ length: repeat }, () => items).flat();
   const track = [...half, ...half];
   // Scale duration with the repeat count so px/s speed stays constant
-  // regardless of how many copies were needed to fill the half-track.
-  const duration = BASE_DURATION[speed] * repeat;
+  // regardless of how many copies were needed to fill the half-track —
+  // unless an explicit duration was given, which is taken as-is.
+  const resolvedDuration = duration ?? BASE_DURATION[speed] * repeat;
 
   return (
     <div className={cn("relative overflow-hidden", className)}>
       <div
         className={cn(
-          "flex w-max items-center gap-8 will-change-transform motion-safe:animate-marquee",
+          "flex w-max items-center gap-8 will-change-transform motion-safe:animate-marquee hover:[animation-play-state:paused]",
           speed === "fast" && "motion-safe:animate-marquee-fast",
           speed === "rapid" && "motion-safe:animate-marquee-rapid",
           reverse && "[animation-direction:reverse]"
         )}
-        style={{ animationDuration: `${duration}s` }}
+        style={{ animationDuration: `${resolvedDuration}s` }}
       >
         {track.map((item, i) => (
           <div key={i} className="shrink-0">
