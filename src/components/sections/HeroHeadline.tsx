@@ -40,14 +40,18 @@ function Words({
   return (
     <>
       {parts.map((w, i) => (
-        <motion.span
-          key={i}
-          variants={shouldReduceMotion ? wordReduced : word}
-          className={cn("inline-block will-change-transform", wordClassName)}
-        >
-          {w}
+        // The space is a sibling text node after the span, not appended
+        // inside it — a trailing space at the edge of an inline-block box
+        // gets collapsed to zero width in some browsers instead of a gap.
+        <span key={i}>
+          <motion.span
+            variants={shouldReduceMotion ? wordReduced : word}
+            className={cn("inline-block will-change-transform", wordClassName)}
+          >
+            {w}
+          </motion.span>
           {i < parts.length - 1 ? " " : ""}
-        </motion.span>
+        </span>
       ))}
     </>
   );
