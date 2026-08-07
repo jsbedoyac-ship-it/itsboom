@@ -3,7 +3,6 @@ import { flavors } from "@/lib/flavors";
 import { StaggerGroup, StaggerItem } from "@/components/motion/Reveal";
 import { WHATSAPP_LINK } from "@/lib/utils";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
-import { IngredientsPanel } from "@/components/sections/IngredientsPanel";
 
 export function FlavorsGrid({ withCta = false }: { withCta?: boolean }) {
   return (
@@ -61,8 +60,6 @@ export function FlavorsGrid({ withCta = false }: { withCta?: boolean }) {
           </StaggerItem>
         ))}
       </StaggerGroup>
-
-      {withCta && <IngredientsPanel className="mt-6" />}
     </div>
   );
 }
