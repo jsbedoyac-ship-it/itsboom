@@ -25,7 +25,7 @@ export function Navbar() {
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
         <Link href="/" onClick={() => setOpen(false)} className="shrink-0">
           <Image
-            src="/logo.png"
+            src="/Igamenes/logo.png"
             alt="IT'S BOOM"
             width={449}
             height={670}

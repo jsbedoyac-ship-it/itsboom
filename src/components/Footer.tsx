@@ -18,7 +18,7 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-3">
           <div>
             <Image
-              src="/logo.png"
+              src="/Igamenes/logo.png"
               alt="IT'S BOOM"
               width={449}
               height={670}
