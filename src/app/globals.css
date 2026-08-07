@@ -49,8 +49,6 @@
   --animate-glow-pulse: glow-pulse 4s ease-in-out infinite;
   --animate-float: float 6s ease-in-out infinite;
   --animate-gradient-shimmer: gradient-shimmer 5s ease-in-out infinite;
-  --animate-bolt-flash: bolt-flash 5s ease-out infinite;
-  --animate-text-surge: text-surge 5s ease-out infinite;
 }
 
 @keyframes marquee {
@@ -94,56 +92,30 @@
   }
 }
 
-/* A bolt sits dark for most of its 5s cycle, then cracks with a fast
-   double-flicker near the start — real strikes read as a sudden stutter,
-   not a smooth fade. Each bolt in the hero reuses this keyframe with a
-   small stagger via animation-delay, so they crack in a quick cascade
-   instead of firing all at once. */
-@keyframes bolt-flash {
-  0%,
-  100% {
-    opacity: 0;
-  }
-  0.6% {
-    opacity: 1;
-  }
-  1.4% {
-    opacity: 0.15;
-  }
-  2.2% {
-    opacity: 0.9;
-  }
-  3% {
-    opacity: 0;
+/* The hero headline's letterforms "draw" themselves on load: a gradient
+   stroke traces the outline (stroke-dashoffset counting down to 0 — see
+   HeroHeadline.tsx for how the dash length is measured per line), the
+   fill fades in right after, and the stroke settles down to a thin rim
+   rather than disappearing, so the type keeps a bit of glow at rest.
+   Applied via each <text> element's own inline `animation` (three
+   comma-separated animations, timed per line), not a shared animate-*
+   utility — the timing depends on that line's measured length, which
+   isn't known until render. */
+@keyframes text-draw {
+  to {
+    stroke-dashoffset: 0;
   }
 }
 
-/* A faint blue/red charge sits on the headline at all times — it never
-   fully goes dark, since bolts keep cracking around it throughout the
-   cycle — and flares bright white with a tiny physical jolt (a 1px
-   punch, not a redraw-triggering shift) the instant the first bolt
-   cracks (delay: 0), like the type is what's actually conducting the
-   current. Both the glow and the jolt live in one keyframe rather than
-   two separate animate-* utilities, since applying two animation
-   shorthands to the same element would just have the second overwrite
-   the first instead of combining. */
-@keyframes text-surge {
-  0%,
-  100% {
-    filter: drop-shadow(0 0 6px rgba(46, 155, 255, 0.25)) drop-shadow(0 0 12px rgba(255, 59, 78, 0.16));
-    transform: translate(0, 0) skew(0deg);
+@keyframes text-fill-in {
+  to {
+    fill-opacity: 1;
   }
-  1% {
-    filter: drop-shadow(0 0 4px #ffffff) drop-shadow(0 0 22px #2e9bff) drop-shadow(0 0 36px #ff3b4e);
-    transform: translate(1px, -1px) skew(-1deg);
-  }
-  2% {
-    filter: drop-shadow(0 0 4px #ffffff) drop-shadow(0 0 18px #2e9bff) drop-shadow(0 0 30px #ff3b4e);
-    transform: translate(-1px, 1px) skew(0.8deg);
-  }
-  3% {
-    filter: drop-shadow(0 0 6px rgba(46, 155, 255, 0.25)) drop-shadow(0 0 12px rgba(255, 59, 78, 0.16));
-    transform: translate(0, 0) skew(0deg);
+}
+
+@keyframes text-stroke-settle {
+  to {
+    stroke-opacity: 0.4;
   }
 }
 
