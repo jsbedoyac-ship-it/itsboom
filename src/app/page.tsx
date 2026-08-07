@@ -46,11 +46,13 @@ export default function Home() {
   return (
     <>
       <section className="relative">
-        <div className="mx-auto max-w-3xl px-5 pb-6 pt-16 text-center sm:px-8 sm:pt-24">
-          <HeroHeadline />
+        <div className="pt-16 sm:pt-24">
+          <BrandWordmark />
         </div>
 
-        <BrandWordmark />
+        <div className="mx-auto max-w-3xl px-5 pb-6 pt-6 text-center sm:px-8">
+          <HeroHeadline />
+        </div>
 
         <CanIngredientsHero />
 
