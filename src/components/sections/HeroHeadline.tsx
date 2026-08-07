@@ -77,7 +77,7 @@ function DrawnLine({ text, y, fontSize, stroke, delay, shouldReduceMotion }: Dra
           ? {
               strokeDasharray: length,
               strokeDashoffset: length,
-              animation: `text-draw 3.2s ${delay}s cubic-bezier(0.65,0,0.35,1) infinite alternate`,
+              animation: `text-draw 4.2s ${delay}s cubic-bezier(0.65,0,0.35,1) infinite alternate`,
             }
           : { opacity: 0 }
       }
