@@ -57,14 +57,51 @@ function Words({
   );
 }
 
-// Sits behind the headline (see the z-0/z-10 split below) so each bolt
-// visually disappears under a solid letter stroke and reappears in the
-// gaps between and inside letters — real z-index stacking rather than a
-// mask, which is what reads as electricity arcing "through" the type.
+// Each bolt is authored as a single jagged vertex chain, then cut into
+// alternating segments: the even ones render in the "back" layer (z-0,
+// behind the h1) and the odd ones in the "front" layer (z-20, above it).
+// Both layers share the exact same viewBox/inset, so the two halves line
+// up into one continuous zigzag — but because it keeps swapping which
+// side of the text it's drawn on, the bolt visibly dives under a letter
+// and re-emerges past it, instead of just sitting in a flat plane behind
+// everything. That alternation is what actually reads as the electricity
+// weaving through the type, rather than a backdrop that happens to have
+// letters in front of it.
+const BOLTS = [
+  {
+    color: "#2E9BFF",
+    width: 3.5,
+    delay: "0ms",
+    back: "M244,-14 L288,52 M254,60 L318,120 M282,128 L332,152 M296,162 L258,228",
+    front: "M288,52 L254,60 M318,120 L282,128 M332,152 L296,162 M258,228 L288,262",
+  },
+  {
+    color: "#FF3B4E",
+    width: 2.5,
+    delay: "60ms",
+    back: "M282,128 L250,145",
+    front: "M250,145 L222,168",
+  },
+  {
+    color: "#FF8A2B",
+    width: 3.5,
+    delay: "180ms",
+    back: "M398,-16 L352,54 M386,62 L322,120 M358,128 L308,154 M344,164 L384,228",
+    front: "M352,54 L386,62 M322,120 L358,128 M308,154 L344,164 M384,228 L350,262",
+  },
+  {
+    color: "#9B5CF6",
+    width: 3,
+    delay: "340ms",
+    back: "M172,-16 L208,46 M182,53 L222,116",
+    front: "M208,46 L182,53",
+  },
+] as const;
+
 // preserveAspectRatio="none" lets the 600x260 layout stretch to whatever
 // box the headline actually occupies at each breakpoint; these are jagged
 // organic bolts, not a logo, so the stretch is imperceptible.
-function LightningBolts() {
+function LightningLayer({ segment }: { segment: "back" | "front" }) {
   return (
     <svg
       aria-hidden="true"
@@ -72,48 +109,22 @@ function LightningBolts() {
       preserveAspectRatio="none"
       className="pointer-events-none absolute -inset-x-6 -inset-y-8 sm:-inset-x-16 sm:-inset-y-12"
     >
-      <g
-        className="opacity-0 motion-safe:animate-bolt-flash"
-        style={{ filter: "drop-shadow(0 0 4px var(--gold)) drop-shadow(0 0 14px var(--pink))" }}
-      >
+      {BOLTS.map((bolt, i) => (
         <path
-          d="M244,-14 L288,52 L254,60 L318,120 L282,128 L332,152 L296,162 L258,228 L288,262"
-          stroke="var(--gold)"
-          strokeWidth="3.5"
+          key={i}
+          d={bolt[segment]}
+          stroke={bolt.color}
+          strokeWidth={bolt.width}
           strokeLinecap="round"
           strokeLinejoin="round"
           fill="none"
+          className="opacity-0 motion-safe:animate-bolt-flash"
+          style={{
+            animationDelay: bolt.delay,
+            filter: `drop-shadow(0 0 3px ${bolt.color}) drop-shadow(0 0 10px ${bolt.color})`,
+          }}
         />
-        <path
-          d="M282,128 L222,168"
-          stroke="var(--gold)"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          fill="none"
-        />
-      </g>
-
-      <path
-        d="M398,-16 L352,54 L386,62 L322,120 L358,128 L308,154 L344,164 L384,228 L350,262"
-        stroke="var(--pink)"
-        strokeWidth="3.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-        className="opacity-0 motion-safe:animate-bolt-flash [animation-delay:180ms]"
-        style={{ filter: "drop-shadow(0 0 4px var(--pink)) drop-shadow(0 0 14px var(--purple-soft))" }}
-      />
-
-      <path
-        d="M172,-16 L208,46 L182,53 L222,116"
-        stroke="var(--purple-soft)"
-        strokeWidth="3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-        className="opacity-0 motion-safe:animate-bolt-flash [animation-delay:340ms]"
-        style={{ filter: "drop-shadow(0 0 4px var(--purple-soft)) drop-shadow(0 0 12px var(--pink))" }}
-      />
+      ))}
     </svg>
   );
 }
@@ -142,12 +153,8 @@ export function HeroHeadline() {
       </motion.p>
 
       <div className="relative mt-6">
-        <div
-          aria-hidden="true"
-          className="absolute -inset-x-4 -inset-y-6 -z-10 rounded-[999px] bg-gold/20 blur-3xl motion-safe:animate-glow-pulse sm:-inset-x-10"
-        />
-        <div className="absolute inset-0 z-0">
-          <LightningBolts />
+        <div className="absolute inset-0 z-0" aria-hidden="true">
+          <LightningLayer segment="back" />
         </div>
 
         <h1 className="font-display relative z-10 text-5xl font-black leading-[0.95] tracking-tight motion-safe:animate-text-surge sm:text-6xl lg:text-7xl">
@@ -162,6 +169,10 @@ export function HeroHeadline() {
             />
           </span>
         </h1>
+
+        <div className="pointer-events-none absolute inset-0 z-20" aria-hidden="true">
+          <LightningLayer segment="front" />
+        </div>
       </div>
     </motion.div>
   );

@@ -128,7 +128,7 @@
     filter: drop-shadow(0 0 0 transparent);
   }
   1% {
-    filter: drop-shadow(0 0 3px var(--gold)) drop-shadow(0 0 22px var(--pink));
+    filter: drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 20px #2e9bff) drop-shadow(0 0 34px #ff3b4e);
   }
   3% {
     filter: drop-shadow(0 0 0 transparent);
