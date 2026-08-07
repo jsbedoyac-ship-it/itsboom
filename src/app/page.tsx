@@ -1,4 +1,4 @@
-import { Camera, CandyOff, Gauge, Sparkles, Zap } from "lucide-react";
+import { CandyOff, Gauge, Sparkles, Zap } from "lucide-react";
 import { CanIngredientsHero } from "@/components/sections/CanIngredientsHero";
 import { HeroHeadline } from "@/components/sections/HeroHeadline";
 import { BrandWordmark } from "@/components/sections/BrandWordmark";
@@ -7,6 +7,7 @@ import { CTASection } from "@/components/sections/CTASection";
 import { Marquee } from "@/components/motion/Marquee";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/motion/Reveal";
 import { InterlockedRings } from "@/components/icons/InterlockedRings";
+import { InstagramIcon } from "@/components/icons/InstagramIcon";
 import { INSTAGRAM_HANDLE, INSTAGRAM_LINK } from "@/lib/utils";
 
 const marqueeItems = ["HECHA PARA QUIENES VAN POR MÁS"].map((text, i) => (
@@ -97,7 +98,7 @@ export default function Home() {
 
       <section className="mx-auto max-w-6xl px-5 py-20 sm:px-8">
         <Reveal className="overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-surface via-surface to-surface-2 p-10 text-center sm:p-16">
-          <Camera className="mx-auto size-8 text-pink" aria-hidden="true" />
+          <InstagramIcon className="mx-auto size-8 text-pink" />
           <h2 className="font-display mt-5 text-3xl font-black tracking-tight sm:text-4xl">
             Síguenos en Instagram
           </h2>
@@ -119,7 +120,7 @@ export default function Home() {
             rel="noopener noreferrer"
             className="mt-8 inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-bold text-foreground transition-colors duration-200 hover:border-pink hover:text-pink cursor-pointer"
           >
-            <Camera className="size-4" aria-hidden="true" />
+            <InstagramIcon className="size-4" />
             Ver perfil
           </a>
         </Reveal>

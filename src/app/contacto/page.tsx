@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Camera, ChevronDown, MessageCircle, Store } from "lucide-react";
+import { ChevronDown, MessageCircle, Store } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/motion/Reveal";
+import { InstagramIcon } from "@/components/icons/InstagramIcon";
 import { INSTAGRAM_HANDLE, INSTAGRAM_LINK, WHATSAPP_LINK } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -64,7 +65,7 @@ export default function ContactoPage() {
               rel="noopener noreferrer"
               className="group flex h-full flex-col rounded-2xl border border-border bg-surface p-6 transition-colors duration-300 hover:border-pink/60 cursor-pointer"
             >
-              <Camera className="size-7 text-pink" aria-hidden="true" />
+              <InstagramIcon className="size-7 text-pink" />
               <h3 className="font-display mt-4 text-lg font-bold">Instagram</h3>
               <p className="mt-2 text-sm text-muted">
                 Síguenos en {INSTAGRAM_HANDLE} para novedades y lanzamientos.

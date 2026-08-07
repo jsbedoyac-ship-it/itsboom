@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Camera, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
+import { InstagramIcon } from "@/components/icons/InstagramIcon";
 import { INSTAGRAM_HANDLE, INSTAGRAM_LINK, WHATSAPP_LINK } from "@/lib/utils";
 
 const links = [
@@ -57,7 +58,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-foreground cursor-pointer"
               >
-                <Camera className="size-4" aria-hidden="true" />
+                <InstagramIcon className="size-4" />
                 {INSTAGRAM_HANDLE}
               </a>
               <a
