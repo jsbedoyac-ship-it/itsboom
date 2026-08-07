@@ -16,7 +16,7 @@ export function WhatsAppFloat() {
       transition={{ delay: 0.6, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ scale: 1.08 }}
       whileTap={{ scale: 0.95 }}
-      className="fixed bottom-6 right-6 z-40 flex size-14 items-center justify-center rounded-full bg-gold text-background shadow-[0_0_24px_rgba(245,166,35,0.45)] cursor-pointer"
+      className="fixed bottom-6 right-6 z-40 flex size-14 items-center justify-center rounded-full bg-whatsapp text-white shadow-[0_0_24px_rgba(37,211,102,0.45)] cursor-pointer"
     >
       <WhatsAppIcon className="size-6" />
     </motion.a>

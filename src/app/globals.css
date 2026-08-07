@@ -14,6 +14,8 @@
   --purple: #4b2e9e;
   --purple-soft: #7c5ce0;
   --gold: #f5a623;
+  --whatsapp: #25d366;
+  --whatsapp-soft: #4ade80;
 
   --border: #262626;
 
@@ -36,6 +38,8 @@
   --color-purple: var(--purple);
   --color-purple-soft: var(--purple-soft);
   --color-gold: var(--gold);
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-soft: var(--whatsapp-soft);
 
   --color-border: var(--border);
 

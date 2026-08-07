@@ -33,7 +33,7 @@ export function CTASection() {
               href={WHATSAPP_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3.5 text-sm font-bold text-background transition-transform duration-200 hover:scale-[1.03] active:scale-95 cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-full bg-whatsapp px-7 py-3.5 text-sm font-bold text-white transition-transform duration-200 hover:scale-[1.03] active:scale-95 cursor-pointer"
             >
               <WhatsAppIcon className="size-4" />
               Quiero ser distribuidor

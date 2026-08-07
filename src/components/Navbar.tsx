@@ -65,7 +65,7 @@ export function Navbar() {
             href={WHATSAPP_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-gold px-5 py-2.5 text-sm font-bold text-background transition-transform duration-200 hover:scale-[1.03] active:scale-95 cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-full bg-whatsapp px-5 py-2.5 text-sm font-bold text-white transition-transform duration-200 hover:scale-[1.03] active:scale-95 cursor-pointer"
           >
             <WhatsAppIcon className="size-4" />
             Pedir ahora
@@ -112,7 +112,7 @@ export function Navbar() {
                   href={WHATSAPP_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 rounded-full bg-gold px-5 py-3 text-sm font-bold text-background cursor-pointer"
+                  className="flex items-center justify-center gap-2 rounded-full bg-whatsapp px-5 py-3 text-sm font-bold text-white cursor-pointer"
                 >
                   <WhatsAppIcon className="size-4" />
                   Pedir ahora
