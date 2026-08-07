@@ -171,42 +171,50 @@ export function CanIngredientsHero() {
   return (
     <section ref={sectionRef} className="relative bg-background">
       {scrubEnabled ? (
-        <div className="flex h-screen w-full items-center justify-center gap-10 overflow-hidden px-6 sm:gap-16 sm:px-12">
-          {canBox}
+        <div className="flex h-screen w-full flex-col overflow-hidden">
+          {/* Clears the sticky navbar's own height so the centered row below
+              never gets vertically centered into the space behind it — the
+              navbar is semi-transparent (bg-background/80) and pinned above
+              this section, so anything centered without this clearance could
+              render partly hidden under it while the section is pinned. */}
+          <div aria-hidden="true" className="h-24 shrink-0 sm:h-28" />
+          <div className="flex flex-1 items-center justify-center gap-10 px-6 sm:gap-16 sm:px-12">
+            {canBox}
 
-          <div className="w-full max-w-sm sm:max-w-md">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={active.label}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <p className="font-mono-brand text-xs font-semibold uppercase tracking-[0.3em] text-muted">
-                  Ingrediente {String(activeIndex + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
-                </p>
-                <ActiveIcon className={cn("mt-5 size-9", activeAccent)} aria-hidden="true" />
-                <h3 className="font-display mt-4 text-3xl font-black uppercase tracking-tight sm:text-4xl">
-                  {active.label}
-                </h3>
-                <p className={cn("mt-1 text-lg font-bold", activeAccent)}>{active.value}</p>
-                <p className="mt-4 text-sm leading-relaxed text-muted sm:text-base">
-                  {active.description}
-                </p>
-              </motion.div>
-            </AnimatePresence>
+            <div className="w-full max-w-sm sm:max-w-md">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={active.label}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -16 }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <p className="font-mono-brand text-xs font-semibold uppercase tracking-[0.3em] text-muted">
+                    Ingrediente {String(activeIndex + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
+                  </p>
+                  <ActiveIcon className={cn("mt-5 size-9", activeAccent)} aria-hidden="true" />
+                  <h3 className="font-display mt-4 text-3xl font-black uppercase tracking-tight sm:text-4xl">
+                    {active.label}
+                  </h3>
+                  <p className={cn("mt-1 text-lg font-bold", activeAccent)}>{active.value}</p>
+                  <p className="mt-4 text-sm leading-relaxed text-muted sm:text-base">
+                    {active.description}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
 
-            <div className="mt-10 flex gap-2">
-              {ingredientBenefits.map((item, i) => (
-                <span
-                  key={item.label}
-                  className={cn(
-                    "h-1 flex-1 rounded-full transition-colors duration-300",
-                    i === activeIndex ? "bg-gold" : "bg-border"
-                  )}
-                />
-              ))}
+              <div className="mt-10 flex gap-2">
+                {ingredientBenefits.map((item, i) => (
+                  <span
+                    key={item.label}
+                    className={cn(
+                      "h-1 flex-1 rounded-full transition-colors duration-300",
+                      i === activeIndex ? "bg-gold" : "bg-border"
+                    )}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
