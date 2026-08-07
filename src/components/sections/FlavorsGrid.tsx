@@ -62,7 +62,7 @@ export function FlavorsGrid({ withCta = false }: { withCta?: boolean }) {
         ))}
       </StaggerGroup>
 
-      <IngredientsPanel className="mt-6" />
+      {withCta && <IngredientsPanel className="mt-6" />}
     </div>
   );
 }
