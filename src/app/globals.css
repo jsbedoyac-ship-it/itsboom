@@ -48,6 +48,7 @@
   --animate-marquee-rapid: marquee 9s linear infinite;
   --animate-glow-pulse: glow-pulse 4s ease-in-out infinite;
   --animate-float: float 6s ease-in-out infinite;
+  --animate-gradient-shimmer: gradient-shimmer 5s ease-in-out infinite;
 }
 
 @keyframes marquee {
@@ -78,6 +79,16 @@
   }
   50% {
     transform: translateY(-18px) rotate(2deg);
+  }
+}
+
+@keyframes gradient-shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
 }
 
@@ -121,6 +132,22 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+.text-gradient-shimmer {
+  background-image: linear-gradient(90deg, var(--pink) 0%, var(--purple) 50%, var(--pink) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-shimmer 5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-gradient-shimmer {
+    animation: none;
+    background-position: 0% 50%;
+  }
 }
 
 .noise-overlay {

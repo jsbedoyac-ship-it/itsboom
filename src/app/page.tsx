@@ -1,5 +1,6 @@
-import { Camera, CandyOff, Flame, Gauge, Sparkles, Zap } from "lucide-react";
+import { Camera, CandyOff, Gauge, Sparkles, Zap } from "lucide-react";
 import { CanIngredientsHero } from "@/components/sections/CanIngredientsHero";
+import { HeroHeadline } from "@/components/sections/HeroHeadline";
 import { FlavorsGrid } from "@/components/sections/FlavorsGrid";
 import { CTASection } from "@/components/sections/CTASection";
 import { Marquee } from "@/components/motion/Marquee";
@@ -45,17 +46,7 @@ export default function Home() {
     <>
       <section className="relative">
         <div className="mx-auto max-w-3xl px-5 pb-6 pt-16 text-center sm:px-8 sm:pt-24">
-          <Reveal>
-            <p className="font-mono-brand inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-green">
-              <Flame className="size-3.5" aria-hidden="true" />
-              Bebida energizante
-            </p>
-            <h1 className="font-display mt-6 text-5xl font-black leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
-              ENERGÍA REAL.
-              <br />
-              <span className="text-gradient">SIN EXCUSAS.</span>
-            </h1>
-          </Reveal>
+          <HeroHeadline />
         </div>
 
         <CanIngredientsHero />
