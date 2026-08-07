@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { MessageSquare, PackageCheck, ShoppingBag } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
 import { FlavorsGrid } from "@/components/sections/FlavorsGrid";
-import { CardsMarquee } from "@/components/sections/CardsMarquee";
+import { CardsMarquee, PACK_SLIDES } from "@/components/sections/CardsMarquee";
 import { IngredientsPanel } from "@/components/sections/IngredientsPanel";
 import { CTASection } from "@/components/sections/CTASection";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/motion/Reveal";
@@ -43,7 +43,7 @@ export default function ProductosPage() {
         <FlavorsGrid withCta />
       </section>
 
-      <CardsMarquee />
+      <CardsMarquee slides={PACK_SLIDES} showHeading={false} />
 
       <section className="py-20">
         <div className="mx-auto max-w-3xl px-5 sm:px-8">
