@@ -92,30 +92,15 @@
   }
 }
 
-/* The hero headline's letterforms "draw" themselves on load: a gradient
-   stroke traces the outline (stroke-dashoffset counting down to 0 — see
-   HeroHeadline.tsx for how the dash length is measured per line), the
-   fill fades in right after, and the stroke settles down to a thin rim
-   rather than disappearing, so the type keeps a bit of glow at rest.
-   Applied via each <text> element's own inline `animation` (three
-   comma-separated animations, timed per line), not a shared animate-*
-   utility — the timing depends on that line's measured length, which
-   isn't known until render. */
+/* The hero headline is neon outline only (no fill) — a gradient stroke
+   traces the letterforms on load, stroke-dashoffset counting down to 0
+   (see HeroHeadline.tsx for how the dash length is measured per line).
+   Applied via each <text> element's own inline `animation`, not a shared
+   animate-* utility — the timing depends on that line's measured length,
+   which isn't known until render. */
 @keyframes text-draw {
   to {
     stroke-dashoffset: 0;
-  }
-}
-
-@keyframes text-fill-in {
-  to {
-    fill-opacity: 1;
-  }
-}
-
-@keyframes text-stroke-settle {
-  to {
-    stroke-opacity: 0.4;
   }
 }
 

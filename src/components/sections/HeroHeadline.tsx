@@ -30,23 +30,20 @@ type DrawnLineProps = {
   text: string;
   y: number;
   fontSize: number;
-  fill: string;
   stroke: string;
   delay: number;
   shouldReduceMotion: boolean;
 };
 
-// Each line "draws" itself: a gradient stroke traces the letterforms
-// (stroke-dashoffset counting down from the text's own measured length to
-// 0), the fill fades in right after, then the stroke settles down to a
-// thin rim instead of vanishing, so the type keeps a bit of glow at rest.
-// A <text> element has no getTotalLength() (only real path/shape elements
-// implement that), so the dasharray value can't be hardcoded the way it
-// can for a <path> — getComputedTextLength() measures this specific
-// string at this specific size instead, in a layout effect so it's
-// applied before the browser's first paint and there's no flash of
-// unstyled text.
-function DrawnLine({ text, y, fontSize, fill, stroke, delay, shouldReduceMotion }: DrawnLineProps) {
+// Each line is neon outline only — no fill, ever — traced on by a gradient
+// stroke counting stroke-dashoffset down from the text's own measured
+// length to 0. A <text> element has no getTotalLength() (only real
+// path/shape elements implement that), so the dasharray value can't be
+// hardcoded the way it can for a <path> — getComputedTextLength() measures
+// this specific string at this specific size instead, in a layout effect
+// so it's applied before the browser's first paint and there's no flash
+// of unstyled text.
+function DrawnLine({ text, y, fontSize, stroke, delay, shouldReduceMotion }: DrawnLineProps) {
   const ref = useRef<SVGTextElement>(null);
   const [length, setLength] = useState(0);
 
@@ -54,38 +51,33 @@ function DrawnLine({ text, y, fontSize, fill, stroke, delay, shouldReduceMotion 
     if (ref.current) setLength(ref.current.getComputedTextLength());
   }, [text, fontSize]);
 
+  const base = {
+    x: "50%" as const,
+    y,
+    textAnchor: "middle" as const,
+    className: "font-display",
+    fontSize,
+    fontWeight: 900,
+    fill: "none",
+    stroke,
+    strokeWidth: 2.5,
+    strokeLinejoin: "round" as const,
+  };
+
   if (shouldReduceMotion) {
-    return (
-      <text x="50%" y={y} textAnchor="middle" className="font-display" fontSize={fontSize} fontWeight={900} fill={fill}>
-        {text}
-      </text>
-    );
+    return <text {...base}>{text}</text>;
   }
 
   return (
     <text
       ref={ref}
-      x="50%"
-      y={y}
-      textAnchor="middle"
-      className="font-display"
-      fontSize={fontSize}
-      fontWeight={900}
-      fill={fill}
-      stroke={stroke}
-      strokeWidth={2.5}
-      strokeLinejoin="round"
+      {...base}
       style={
         length
           ? {
               strokeDasharray: length,
               strokeDashoffset: length,
-              fillOpacity: 0,
-              animation: [
-                `text-draw 1.4s ${delay}s cubic-bezier(0.65,0,0.35,1) forwards`,
-                `text-fill-in 0.6s ${delay + 0.85}s ease-out forwards`,
-                `text-stroke-settle 0.9s ${delay + 1.4}s ease-out forwards`,
-              ].join(", "),
+              animation: `text-draw 3.2s ${delay}s cubic-bezier(0.65,0,0.35,1) forwards`,
             }
           : { opacity: 0 }
       }
@@ -126,14 +118,10 @@ export function HeroHeadline() {
           className="mx-auto w-full max-w-[760px] overflow-visible"
         >
           <defs>
-            <linearGradient id="lineOneStroke" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#F5A623" />
-              <stop offset="100%" stopColor="#EC1E6E" />
-            </linearGradient>
-            <linearGradient id="lineTwoStroke" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#EC1E6E" />
-              <stop offset="50%" stopColor="#7C5CE0" />
-              <stop offset="100%" stopColor="#EC1E6E" />
+            <linearGradient id="neonMono" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#ffffff" />
+              <stop offset="50%" stopColor="#8a8a8a" />
+              <stop offset="100%" stopColor="#ffffff" />
             </linearGradient>
           </defs>
 
@@ -141,8 +129,7 @@ export function HeroHeadline() {
             text="ENERGÍA"
             y={100}
             fontSize={92}
-            fill="#ffffff"
-            stroke="url(#lineOneStroke)"
+            stroke="url(#neonMono)"
             delay={0.15}
             shouldReduceMotion={shouldReduceMotion}
           />
@@ -150,9 +137,8 @@ export function HeroHeadline() {
             text="SIN EXCUSAS."
             y={232}
             fontSize={80}
-            fill="url(#lineTwoStroke)"
-            stroke="url(#lineTwoStroke)"
-            delay={0.4}
+            stroke="url(#neonMono)"
+            delay={0.6}
             shouldReduceMotion={shouldReduceMotion}
           />
         </svg>
