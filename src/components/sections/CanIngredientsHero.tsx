@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState } from "react";
+import NextImage from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
@@ -8,24 +9,6 @@ import { Brain, Droplets, Flame, HeartPulse, Waves, Zap, type LucideIcon } from 
 import { ingredientBenefits } from "@/lib/flavors";
 import { cn } from "@/lib/utils";
 
-const FINE_POINTER_QUERY = "(pointer: fine)";
-
-function subscribeFinePointer(callback: () => void) {
-  const mql = window.matchMedia(FINE_POINTER_QUERY);
-  mql.addEventListener("change", callback);
-  return () => mql.removeEventListener("change", callback);
-}
-
-function getFinePointerSnapshot() {
-  return window.matchMedia(FINE_POINTER_QUERY).matches;
-}
-
-function getFinePointerServerSnapshot() {
-  return false;
-}
-
-const VIDEO_SRC = "/can-boom-reveal.mp4";
-const POSTER_SRC = "/can-boom-reveal-poster.jpg";
 // Native processed frame is 580x1050 — the can shot rotoscoped frame-by-frame
 // (background/bokeh keyed out and repainted to the exact page background, so
 // the rectangular frame edge is invisible rather than transparent) and
@@ -43,30 +26,26 @@ const accentCycle = ["text-pink", "text-gold", "text-green", "text-purple"] as c
 /**
  * Hero: the can stays pinned in view while scrolling scrubs through a
  * preloaded still-frame sequence (drawn to a canvas) and, in lockstep,
- * cycles through the ingredient benefits beside it. A canvas image
- * sequence is used instead of scrubbing a <video>'s currentTime because
- * rapid-fire seeks during fast scrolling can outrun the decoder — Safari
- * in particular can leave a torn, partially-decoded frame on screen
- * (reading as a black bite out of the can) instead of catching up or
- * erroring. Drawing an already-loaded HTMLImageElement is synchronous, so
- * every paint is a complete frame. Touch devices skip the pin/scrub
- * entirely and get a normal-height autoplaying video loop plus a static
- * ingredients grid instead — same bounded aspect-ratio box either way, so
- * the can is never cropped by its container.
+ * cycles through the ingredient benefits beside it — on every device,
+ * touch included, so the reveal reads the same on a phone as on desktop.
+ * A canvas image sequence is used instead of scrubbing a <video>'s
+ * currentTime because rapid-fire seeks during fast scrolling can outrun
+ * the decoder — Safari in particular can leave a torn, partially-decoded
+ * frame on screen instead of catching up or erroring. Drawing an
+ * already-loaded HTMLImageElement is synchronous, so every paint is a
+ * complete frame, which is what makes the scrub safe to run on mobile
+ * scroll too. The layout stacks the can above the copy on narrow screens
+ * and sits them side by side from `sm` up. Reduced-motion users skip the
+ * scroll-jacking pin entirely and get a static frame plus the full
+ * ingredients grid at once.
  */
 export function CanIngredientsHero() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const framesRef = useRef<HTMLImageElement[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const shouldReduceMotion = useReducedMotion();
-  const hasFinePointer = useSyncExternalStore(
-    subscribeFinePointer,
-    getFinePointerSnapshot,
-    getFinePointerServerSnapshot
-  );
-  const scrubEnabled = hasFinePointer && !shouldReduceMotion;
+  const scrubEnabled = !shouldReduceMotion;
   const count = ingredientBenefits.length;
 
   useEffect(() => {
@@ -114,99 +93,9 @@ export function CanIngredientsHero() {
     return () => ctx.revert();
   }, [scrubEnabled, count]);
 
-  useEffect(() => {
-    const video = videoRef.current;
-    const section = sectionRef.current;
-    if (scrubEnabled || !video || !section) return;
-
-    // Some mobile browsers only honor "muted" for autoplay purposes when
-    // it's set as a JS property (not just the HTML attribute) before the
-    // first play() call.
-    video.muted = true;
-    video.defaultMuted = true;
-
-    const tryPlay = () => video.play().catch(() => {});
-    tryPlay();
-
-    const timeouts = [50, 300, 1000, 2500].map((delay) =>
-      window.setTimeout(() => {
-        if (video.paused) tryPlay();
-      }, delay)
-    );
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]?.isIntersecting && video.paused) tryPlay();
-      },
-      { threshold: 0.15 }
-    );
-    observer.observe(section);
-
-    const retryEvents: Array<keyof WindowEventMap> = [
-      "touchstart",
-      "scroll",
-      "click",
-      "pointerdown",
-    ];
-    const retry = () => {
-      if (video.paused) tryPlay();
-      retryEvents.forEach((evt) => window.removeEventListener(evt, retry));
-    };
-    retryEvents.forEach((evt) => window.addEventListener(evt, retry, { once: true, passive: true }));
-
-    return () => {
-      timeouts.forEach((id) => window.clearTimeout(id));
-      observer.disconnect();
-      retryEvents.forEach((evt) => window.removeEventListener(evt, retry));
-    };
-  }, [scrubEnabled]);
-
   const active = ingredientBenefits[activeIndex];
   const ActiveIcon = ICONS[activeIndex % ICONS.length];
   const activeAccent = accentCycle[activeIndex % accentCycle.length];
-
-  // Bounded box the can sits in — height-driven, aspect-ratio locked, so
-  // the can is always shown in full (never cropped by a flex column) at a
-  // size proportional to the viewport, on both desktop and mobile. The
-  // scrub variant's height also caps at 72vw (→ ~40% viewport width once
-  // the aspect ratio is applied): on a tall-but-narrow window a pure vh
-  // height can demand more width than the pinned row has next to the
-  // ingredient copy, and the row's overflow-hidden then silently clips
-  // the can's edge — reading as a black bite taken out of it.
-  const canBox = (
-    <div
-      className={cn(
-        "relative shrink-0",
-        !scrubEnabled &&
-          "h-[52vh] max-h-[460px] w-full max-w-[300px] sm:h-[62vh] sm:max-h-[560px] sm:max-w-[340px]"
-      )}
-      style={{
-        aspectRatio: VIDEO_ASPECT,
-        ...(scrubEnabled ? { height: "min(78vh, 760px, 72vw)" } : {}),
-      }}
-    >
-      {scrubEnabled ? (
-        <canvas
-          ref={canvasRef}
-          width={FRAME_WIDTH}
-          height={FRAME_HEIGHT}
-          className="h-full w-full object-contain"
-        />
-      ) : (
-        <video
-          ref={videoRef}
-          src={VIDEO_SRC}
-          poster={POSTER_SRC}
-          muted
-          loop
-          autoPlay
-          playsInline
-          preload="auto"
-          className="h-full w-full object-contain"
-        />
-      )}
-    </div>
-  );
 
   return (
     <section ref={sectionRef} className="relative bg-background">
@@ -218,8 +107,23 @@ export function CanIngredientsHero() {
               this section, so anything centered without this clearance could
               render partly hidden under it while the section is pinned. */}
           <div aria-hidden="true" className="h-24 shrink-0 sm:h-28" />
-          <div className="flex flex-1 items-center justify-center gap-10 px-6 sm:gap-16 sm:px-12">
-            {canBox}
+          <div className="flex flex-1 flex-col items-center justify-center gap-6 px-6 sm:flex-row sm:gap-16 sm:px-12">
+            {/* Width-driven (not vh-driven): height simply follows from the
+                aspect ratio, so the can can never demand more horizontal
+                space than its own width class allows — on a tall-but-narrow
+                viewport a height-first box could out-grow the row and get
+                clipped by overflow-hidden above. */}
+            <div
+              className="relative w-[58vw] max-w-[260px] shrink-0 sm:w-[27vw] sm:max-w-[420px]"
+              style={{ aspectRatio: VIDEO_ASPECT }}
+            >
+              <canvas
+                ref={canvasRef}
+                width={FRAME_WIDTH}
+                height={FRAME_HEIGHT}
+                className="h-full w-full object-contain"
+              />
+            </div>
 
             <div className="w-full max-w-sm sm:max-w-md">
               <AnimatePresence mode="wait">
@@ -260,7 +164,18 @@ export function CanIngredientsHero() {
         </div>
       ) : (
         <div className="flex w-full flex-col items-center gap-10 py-14">
-          {canBox}
+          <div
+            className="relative w-full max-w-[300px] shrink-0 sm:max-w-[340px]"
+            style={{ aspectRatio: VIDEO_ASPECT }}
+          >
+            <NextImage
+              src={frameSrc(1)}
+              alt="Lata IT'S BOOM"
+              fill
+              sizes="340px"
+              className="object-contain"
+            />
+          </div>
 
           <div className="grid w-full grid-cols-2 gap-3 px-5 sm:px-8">
             {ingredientBenefits.map((item, i) => {
