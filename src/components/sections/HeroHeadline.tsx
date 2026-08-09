@@ -1,7 +1,7 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { motion, useAnimation, useReducedMotion, type Variants } from "framer-motion";
 import { Flame } from "lucide-react";
 
 const container: Variants = {
@@ -17,7 +17,16 @@ const pop: Variants = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { type: "spring", stiffness: 280, damping: 22, mass: 0.7 },
+    // A duration-based tween rather than a spring on purpose: springs
+    // are physics-driven and must tick on the main thread every frame,
+    // which a page that mounts while its tab is backgrounded (common
+    // when several tabs load at once) can stall indefinitely — no
+    // main-thread frame ever runs to advance it, so it never reaches
+    // "visible" and the hero text stays invisible. A tween this simple
+    // (opacity/y/scale) is one the browser can hand off to its own
+    // compositor, the same way the rest of the site's Reveal-based
+    // entrances already do, so it keeps progressing regardless.
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
@@ -108,9 +117,25 @@ function DrawnLine({ text, y, fontSize, stroke, delay, shouldReduceMotion }: Dra
 
 export function HeroHeadline() {
   const shouldReduceMotion = !!useReducedMotion();
+  const controls = useAnimation();
+
+  // Belt-and-suspenders alongside the tween-over-spring change above:
+  // `animate="visible"` only ever fires once, at mount. If that mount
+  // happens while the tab is backgrounded, the browser can withhold
+  // every frame this animation would need, so it never reaches
+  // "visible" no matter how long the tab stays open — the hero text
+  // and pill are then invisible for the rest of that page view. Driving
+  // it through explicit controls means the same "visible" animation
+  // can be re-fired the moment the tab is actually rendering.
+  useEffect(() => {
+    const play = () => controls.start("visible");
+    play();
+    document.addEventListener("visibilitychange", play);
+    return () => document.removeEventListener("visibilitychange", play);
+  }, [controls]);
 
   return (
-    <motion.div initial="hidden" animate="visible" variants={container}>
+    <motion.div initial="hidden" animate={controls} variants={container}>
       <motion.p
         variants={shouldReduceMotion ? reduced : pop}
         className="font-mono-brand inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-green"
