@@ -53,9 +53,24 @@ export function CanIngredientsHero() {
     const canvas = canvasRef.current;
     if (!scrubEnabled || !section || !canvas) return;
 
+    // A flaky mobile connection (or an in-app browser like WhatsApp's,
+    // which throttles background requests more aggressively than real
+    // Safari/Chrome) can make some of these 121 requests fail outright
+    // rather than just load slowly. With no error handling that frame
+    // stays permanently broken — retryImage gives each one a couple of
+    // retries before giving up.
+    const retryImage = (img: HTMLImageElement, src: string, attempt = 0) => {
+      img.onerror = () => {
+        if (attempt < 3) {
+          window.setTimeout(() => retryImage(img, src, attempt + 1), 600 * (attempt + 1));
+        }
+      };
+      img.src = src;
+    };
+
     const images = Array.from({ length: FRAME_COUNT }, (_, i) => {
       const img = new Image();
-      img.src = frameSrc(i + 1);
+      retryImage(img, frameSrc(i + 1));
       return img;
     });
     framesRef.current = images;
