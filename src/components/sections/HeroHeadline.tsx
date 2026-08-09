@@ -47,8 +47,25 @@ function DrawnLine({ text, y, fontSize, stroke, delay, shouldReduceMotion }: Dra
   const ref = useRef<SVGTextElement>(null);
   const [length, setLength] = useState(0);
 
+  // Measured once on mount isn't enough: a tab opened in the background
+  // (common on iOS Safari when several tabs load at once) can report a
+  // computed text length of 0 because WebKit skips layout for hidden
+  // documents — and since the effect never reruns, that 0 would stick
+  // forever, permanently hiding the text (see the `: text` fallback
+  // below, which keeps it visible — just undrawn — while that happens).
+  // Re-measuring on visibility/font-load recovers once the tab is
+  // actually rendering.
   useLayoutEffect(() => {
-    if (ref.current) setLength(ref.current.getComputedTextLength());
+    const measure = () => {
+      const measured = ref.current?.getComputedTextLength() ?? 0;
+      if (measured > 0) setLength(measured);
+    };
+
+    measure();
+    document.addEventListener("visibilitychange", measure);
+    document.fonts?.ready?.then(measure);
+
+    return () => document.removeEventListener("visibilitychange", measure);
   }, [text, fontSize]);
 
   const base = {
@@ -68,6 +85,8 @@ function DrawnLine({ text, y, fontSize, stroke, delay, shouldReduceMotion }: Dra
     return <text {...base}>{text}</text>;
   }
 
+  // Until the length is known the text still renders — fully drawn,
+  // just without the dash animation — instead of staying invisible.
   return (
     <text
       ref={ref}
@@ -79,7 +98,7 @@ function DrawnLine({ text, y, fontSize, stroke, delay, shouldReduceMotion }: Dra
               strokeDashoffset: length,
               animation: `text-draw 4.2s ${delay}s cubic-bezier(0.65,0,0.35,1) infinite alternate`,
             }
-          : { opacity: 0 }
+          : undefined
       }
     >
       {text}

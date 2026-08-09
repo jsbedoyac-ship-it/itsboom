@@ -61,6 +61,7 @@ export function CanIngredientsHero() {
     framesRef.current = images;
 
     const ctx2d = canvas.getContext("2d");
+    const currentFrame = { current: 0 };
     const drawFrame = (index: number) => {
       const img = images[index];
       if (!ctx2d || !img.complete || img.naturalWidth === 0) return;
@@ -83,6 +84,7 @@ export function CanIngredientsHero() {
         scrub: true,
         onUpdate: (self) => {
           const frameIdx = Math.min(FRAME_COUNT - 1, Math.round(self.progress * (FRAME_COUNT - 1)));
+          currentFrame.current = frameIdx;
           drawFrame(frameIdx);
           const benefitIdx = Math.min(count - 1, Math.floor(self.progress * count));
           setActiveIndex(benefitIdx);
@@ -90,7 +92,27 @@ export function CanIngredientsHero() {
       });
     }, section);
 
-    return () => ctx.revert();
+    // A tab opened or left in the background (iOS Safari especially) can
+    // defer the frame images' downloads and compute this pin's start/end
+    // against a stale or zeroed window.innerHeight — with nothing forcing
+    // a recheck, the section is left permanently unpinned and the canvas
+    // blank. Recovering just needs a refresh (recomputes the pin range
+    // against real dimensions) plus a redraw of whatever frame was last
+    // active, now that images that were stalled mid-load have had a
+    // chance to finish.
+    const recover = () => {
+      if (document.hidden) return;
+      ScrollTrigger.refresh();
+      drawFrame(currentFrame.current);
+    };
+    document.addEventListener("visibilitychange", recover);
+    window.addEventListener("pageshow", recover);
+
+    return () => {
+      document.removeEventListener("visibilitychange", recover);
+      window.removeEventListener("pageshow", recover);
+      ctx.revert();
+    };
   }, [scrubEnabled, count]);
 
   const active = ingredientBenefits[activeIndex];
