@@ -143,6 +143,18 @@ body {
   color: #ffffff;
 }
 
+/* Draggable carousels scroll natively (for touch momentum + a11y) but
+   the scrollbar itself is redundant next to the visible drag/arrow
+   affordances, so it's hidden across engines. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 .text-gradient {
   background: linear-gradient(90deg, var(--pink) 0%, var(--purple) 100%);
   -webkit-background-clip: text;

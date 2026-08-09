@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Marquee } from "@/components/motion/Marquee";
+import { DraggableCarousel } from "@/components/motion/DraggableCarousel";
 import { Reveal } from "@/components/motion/Reveal";
 import { WHATSAPP_LINK } from "@/lib/utils";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
@@ -59,7 +59,7 @@ export function CardsMarquee({ slides = SPORTS_SLIDES, showHeading = true, ctaLa
       )}
 
       <div className={showHeading ? "mt-14" : undefined}>
-        <Marquee items={items} duration={100} pauseOnHover={false} />
+        <DraggableCarousel items={items} />
       </div>
 
       {ctaLabel && (
