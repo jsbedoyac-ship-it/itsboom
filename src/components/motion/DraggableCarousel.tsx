@@ -14,9 +14,17 @@ type DraggableCarouselProps = {
 };
 
 // How long a manual interaction (drag or a prev/next tap) keeps the
-// idle auto-scroll paused before it drifts again — long enough that
-// resuming doesn't fight residual touch-scroll momentum.
-const RESUME_DELAY_MS = 900;
+// idle auto-scroll paused before it drifts again — short, because the
+// drift should read as "always moving," not something interaction
+// switches off for a while.
+const RESUME_DELAY_MS = 400;
+
+// Belt-and-suspenders: if a pointerup/pointercancel is ever missed (a
+// known inconsistency on some touch browsers when a gesture hands off
+// to native scrolling mid-drag), nothing would ever clear
+// isInteractingRef and the drift would stay paused forever. This caps
+// how long a pause can last regardless of whether that event fired.
+const MAX_PAUSE_MS = 2500;
 
 /**
  * A marquee that never stops drifting on its own, but — unlike the
@@ -28,11 +36,12 @@ const RESUME_DELAY_MS = 900;
  * drifts past a rendered copy, so the loop has no visible seam in
  * either scroll direction.
  */
-export function DraggableCarousel({ items, className, speed = 0.045 }: DraggableCarouselProps) {
+export function DraggableCarousel({ items, className, speed = 0.06 }: DraggableCarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const oneSetWidthRef = useRef(0);
   const cardStepRef = useRef(0);
   const isInteractingRef = useRef(false);
+  const pausedAtRef = useRef(0);
   const isMouseDraggingRef = useRef(false);
   const dragStartXRef = useRef(0);
   const dragStartScrollRef = useRef(0);
@@ -78,6 +87,9 @@ export function DraggableCarousel({ items, className, speed = 0.045 }: Draggable
       const dt = now - lastTime;
       lastTime = now;
 
+      if (isInteractingRef.current && now - pausedAtRef.current > MAX_PAUSE_MS) {
+        isInteractingRef.current = false;
+      }
       if (!isInteractingRef.current && !shouldReduceMotion) {
         container.scrollLeft += speed * dt;
       }
@@ -88,6 +100,7 @@ export function DraggableCarousel({ items, className, speed = 0.045 }: Draggable
 
     const pause = () => {
       isInteractingRef.current = true;
+      pausedAtRef.current = performance.now();
       window.clearTimeout(resumeTimeoutRef.current);
     };
     const scheduleResume = () => {
@@ -143,6 +156,7 @@ export function DraggableCarousel({ items, className, speed = 0.045 }: Draggable
     const container = containerRef.current;
     if (!container || !cardStepRef.current) return;
     isInteractingRef.current = true;
+    pausedAtRef.current = performance.now();
     window.clearTimeout(resumeTimeoutRef.current);
     container.scrollBy({ left: direction * cardStepRef.current, behavior: "smooth" });
     resumeTimeoutRef.current = window.setTimeout(() => {
@@ -161,7 +175,7 @@ export function DraggableCarousel({ items, className, speed = 0.045 }: Draggable
         // continuous motion. The prev/next buttons ask for a smooth
         // scroll explicitly instead, per-call, via scrollBy's own
         // `behavior` option.
-        className="no-scrollbar flex touch-pan-x cursor-grab gap-8 overflow-x-auto"
+        className="no-scrollbar flex cursor-grab gap-8 overflow-x-auto"
       >
         {track.map((item, i) => (
           <div key={i} className="shrink-0 select-none">
