@@ -68,7 +68,7 @@ export function CardsMarquee({ slides = SPORTS_SLIDES, showHeading = true, ctaLa
             href={WHATSAPP_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-bold uppercase tracking-wide text-foreground transition-colors duration-200 hover:border-whatsapp hover:text-whatsapp cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-full bg-whatsapp px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-white shadow-lg shadow-whatsapp/25 transition-transform duration-200 hover:scale-[1.03] hover:bg-whatsapp-soft active:scale-95 cursor-pointer"
           >
             <WhatsAppIcon className="size-4" />
             {ctaLabel}

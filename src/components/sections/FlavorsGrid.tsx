@@ -49,9 +49,9 @@ export function FlavorsGrid({ withCta = false }: { withCta?: boolean }) {
                     href={WHATSAPP_LINK}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-5 inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-xs font-bold uppercase tracking-wide text-foreground transition-colors duration-200 hover:border-whatsapp hover:text-whatsapp cursor-pointer"
+                    className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-whatsapp px-5 py-3 text-sm font-bold text-white shadow-lg shadow-whatsapp/25 transition-transform duration-200 hover:scale-[1.03] hover:bg-whatsapp-soft active:scale-95 cursor-pointer"
                   >
-                    <WhatsAppIcon className="size-3.5" />
+                    <WhatsAppIcon className="size-4" />
                     Pedir {flavor.name}
                   </a>
                 )}
