@@ -3,7 +3,7 @@ import { CanIngredientsHero } from "@/components/sections/CanIngredientsHero";
 import { HeroHeadline } from "@/components/sections/HeroHeadline";
 import { BrandWordmark } from "@/components/sections/BrandWordmark";
 import { FlavorsGrid } from "@/components/sections/FlavorsGrid";
-import { CardsMarquee } from "@/components/sections/CardsMarquee";
+import { CardsMarquee, PACK_SLIDES } from "@/components/sections/CardsMarquee";
 import { CTASection } from "@/components/sections/CTASection";
 import { Marquee } from "@/components/motion/Marquee";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/motion/Reveal";
@@ -90,10 +90,16 @@ export default function Home() {
           </Reveal>
 
           <div className="mt-14">
-            <FlavorsGrid />
+            <FlavorsGrid withCta />
           </div>
         </div>
       </section>
+
+      <CardsMarquee
+        slides={PACK_SLIDES}
+        showHeading={false}
+        ctaLabel="Pide aquí tu pack de preferencia"
+      />
 
       <CardsMarquee />
 
