@@ -23,10 +23,27 @@ const inter = Inter({
   weight: ["400", "500", "600", "700"],
 });
 
+const title = "IT'S BOOM Energy Drink | Hecha para quienes van por más";
+const description =
+  "IT'S BOOM es la bebida energizante hecha para quienes van por más. Sabores Kiwi y Fresa, Mora Azul Açaí. Energía real, sin excusas.";
+
 export const metadata: Metadata = {
-  title: "IT'S BOOM Energy Drink | Hecha para quienes van por más",
-  description:
-    "IT'S BOOM es la bebida energizante hecha para quienes van por más. Sabores Kiwi y Fresa, Mora Azul Açaí. Energía real, sin excusas.",
+  metadataBase: new URL("https://itsboom.co"),
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    url: "https://itsboom.co",
+    siteName: "IT'S BOOM Energy Drink",
+    locale: "es_CO",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
 };
 
 export const viewport: Viewport = {
