@@ -6,6 +6,6 @@ export function cn(...inputs: ClassValue[]) {
 
 export const WHATSAPP_LINK =
   "https://wa.me/573332865715?text=" +
-  encodeURIComponent("⚡ Hola!! Estoy interesado en los productos Its'Boom ⚡");
+  encodeURIComponent("Hola!! Estoy interesado en los productos Its'Boom");
 export const INSTAGRAM_LINK = "https://www.instagram.com/itsboomcol/";
 export const INSTAGRAM_HANDLE = "@itsboomcol";
