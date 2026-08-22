@@ -22,10 +22,10 @@ const SPORTS_SLIDES: Slide[] = [
 ];
 
 export const PACK_SLIDES: Slide[] = [
-  { src: "/Igamenes/6_pack_kiwi.webp", alt: "Six pack IT'S BOOM Kiwi y Fresa" },
-  { src: "/Igamenes/six_pack_mora_azul_acai.webp", alt: "Six pack IT'S BOOM Mora Azul Açaí" },
-  { src: "/Igamenes/24pack_kiwi_web.webp", alt: "24 pack IT'S BOOM Kiwi y Fresa" },
-  { src: "/Igamenes/24pack_mora_azil_web.webp", alt: "24 pack IT'S BOOM Mora Azul Açaí" },
+  { src: "/Igamenes/pack-x6-kiwi.png", alt: "Six pack IT'S BOOM Kiwi y Fresa" },
+  { src: "/Igamenes/pack-x6-mora-azul.png", alt: "Six pack IT'S BOOM Mora Azul Açaí" },
+  { src: "/Igamenes/pack-x24-kiwi.png", alt: "24 pack IT'S BOOM Kiwi y Fresa" },
+  { src: "/Igamenes/pack-x24-mora-azul.png", alt: "24 pack IT'S BOOM Mora Azul Açaí" },
 ];
 
 function SlideCard({ src, alt }: Slide) {
